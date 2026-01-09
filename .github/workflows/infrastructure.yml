@@ -40,7 +40,7 @@ jobs:
           scope: subscription
           location: uksouth
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          template-file: ./azure/main.bicep
+          template-file: ./main.bicep
       - name: Deploy
         uses: azure/bicep-deploy@v2
         with:
@@ -50,4 +50,4 @@ jobs:
           scope: subscription
           location: uksouth
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          template-file: ./azure/main.bicep
+          template-file: ./main.bicep
