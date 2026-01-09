@@ -6,6 +6,6 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2025-04-01' = {
 }
 
 module webApp 'webApp.bicep' = {
-    name: 'BoxOfficeFlow'
+    name: 'BoxOfficeFlow-${toLower(substring(guid(deployment().name), 0, 8))}'
     scope: resourceGroup
 }
