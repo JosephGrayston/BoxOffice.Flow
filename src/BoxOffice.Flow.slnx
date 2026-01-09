@@ -1,4 +1,11 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../.editorconfig" />
+    <File Path="../.gitignore" />
+    <File Path="../Directory.Build.props" />
+    <File Path="../Directory.Packages.props" />
+    <File Path="../README.md" />
+  </Folder>
   <Project Path="BoxOffice.Flow.AppHost/BoxOffice.Flow.AppHost.csproj" />
   <Project Path="BoxOffice.Flow.ServiceDefaults/BoxOffice.Flow.ServiceDefaults.csproj" />
   <Project Path="BoxOffice.Flow/BoxOffice.Flow.csproj" />
