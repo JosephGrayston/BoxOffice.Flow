@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="BoxOffice.Flow.AppHost/BoxOffice.Flow.AppHost.csproj" />
+  <Project Path="BoxOffice.Flow.ServiceDefaults/BoxOffice.Flow.ServiceDefaults.csproj" />
+  <Project Path="BoxOffice.Flow/BoxOffice.Flow.csproj" />
+</Solution>
