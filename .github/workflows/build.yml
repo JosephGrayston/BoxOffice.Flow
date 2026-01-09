@@ -3,10 +3,8 @@ name: Build
 on:
   push:
     branches: [ "main" ]
-    paths: ["src/**", "tests/**", "**/build.yml"]
   pull_request:
     branches: [ "main" ]
-    paths: ["src/**", "tests/**", "**/build.yml"]
 
 jobs:
   build:

@@ -5,10 +5,6 @@ on:
   push:
     branches: [ "main" ]
     paths: ["infrastructure/**"]
-  pull_request:
-    branches: [ "main" ]
-    paths: ["infrastructure/**"]
-
 
 permissions:
   id-token: write
