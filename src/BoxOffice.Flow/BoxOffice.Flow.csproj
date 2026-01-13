@@ -5,5 +5,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BoxOffice.Flow.ServiceDefaults\BoxOffice.Flow.ServiceDefaults.csproj" />
+
+    <PackageReference Include="MudBlazor" />
   </ItemGroup>
 </Project>

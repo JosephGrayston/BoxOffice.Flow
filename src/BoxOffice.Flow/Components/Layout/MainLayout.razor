@@ -1,23 +1,44 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudThemeProvider Theme="@Theme.Instance" IsDarkMode="IsDarkMode" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<MudLayout>
+    <MudAppBar Dense="true" Elevation="0" Style="border-left: 1px solid var(--mud-palette-divider); border-bottom: 1px solid var(--mud-palette-divider);" Color="Color.Default">
+        <MudSpacer />
+        <MudStack AlignItems="AlignItems.Center" Row="true">
+            @* Not sure about styling here *@
+            <MudIconButton Icon="@GetThemeIcon()" OnClick="() => IsDarkMode = !IsDarkMode" Color="Color.Default" />
+            <MudIconButton Icon="@Icons.Material.Outlined.Settings" />
+            <MudText>Notifcation placeholder</MudText>
+            <MudText>Profile placeholder</MudText>
+        </MudStack>
+    </MudAppBar>
+    <MudDrawer Open="true"
+               Variant="DrawerVariant.Persistent"
+               Anchor="Anchor.Start"
+               Width="15em">
+        <MudImage Alt="Ticketsolve Flow Logo" Src="@($"images/logo{(IsDarkMode ? "-dark" : string.Empty)}.svg")" Style="padding: 1rem" />
+        <MudNavMenu>
+            <MudNavLink Icon="@Icons.Material.Outlined.Dashboard" Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+            <MudNavLink Icon="@Icons.Material.Outlined.AllInbox" Href="/inbox" Match="NavLinkMatch.All">Inbox</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    private bool IsDarkMode { get; set; }
+
+    private string GetThemeIcon() => IsDarkMode ? Icons.Material.Outlined.LightMode : Icons.Material.Outlined.DarkMode;
+}
