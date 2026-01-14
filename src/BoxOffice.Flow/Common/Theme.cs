@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 
-namespace BoxOffice.Flow.Theming;
+namespace BoxOffice.Flow.Common;
 
 public static class Theme
 {
