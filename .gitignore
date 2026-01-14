@@ -365,3 +365,4 @@ FodyWeavers.xsd
 # App Settings
 **/appsettings.json
 !/**/**/appsettings.example.json
+/src/.aspire
