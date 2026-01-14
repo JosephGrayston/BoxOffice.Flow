@@ -1,4 +1,4 @@
-using BoxOffice.Flow.Components;
+using BoxOffice.Flow;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
