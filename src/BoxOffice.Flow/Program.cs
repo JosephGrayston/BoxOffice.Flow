@@ -1,5 +1,5 @@
 using BoxOffice.Flow;
-using MudBlazor.Services;
+using BoxOffice.Flow.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +9,13 @@ builder.AddServiceDefaults();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddMudServices();
+builder.Services.ConfigureMudBlazor();
+builder.Services.ConfigureIdentity(builder.Configuration);
 
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
+app.MapEndpoints();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -26,6 +28,9 @@ app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages:
 app.UseHttpsRedirection();
 
 app.UseAntiforgery();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
