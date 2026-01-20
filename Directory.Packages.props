@@ -5,6 +5,8 @@
   <ItemGroup>
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.18.0.131500" />
     <PackageVersion Include="MudBlazor" Version="9.0.0-preview.1" />
+    <PackageVersion Include="Microsoft.Identity.Web" Version="4.3.0" />
+    
     <!-- Aspire -->
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0" />
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.1.0" />
