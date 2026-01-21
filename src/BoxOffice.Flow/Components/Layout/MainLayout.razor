@@ -22,7 +22,7 @@
                Width="15em"
                Elevation="0"
                 Style="border-radius: 0">
-        <MudImage Alt="Ticketsolve Flow Logo" Src="@($"images/logo.svg")" Style="padding: 1rem" />
+        <MudImage Alt="Ticketsolve Flow Logo" Src="@($"images/logo-{(IsDarkMode ? "dark": "light")}.svg")" Style="padding: 1rem; margin: 0.5rem auto; width: 100px" />
         <MudNavMenu>
             <MudNavLink Icon="@Icons.Material.Outlined.Dashboard" Href="/dashboard" Match="NavLinkMatch.All">Dashboard</MudNavLink>
             <MudNavLink Icon="@Icons.Material.Outlined.AllInbox" Href="/inbox" Match="NavLinkMatch.All">Inbox</MudNavLink>
