@@ -6,7 +6,7 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Dense="true" Elevation="0" Style="border-left: 1px solid var(--mud-palette-divider); border-bottom: 1px solid var(--mud-palette-divider);" Color="Color.Default">
+    <MudAppBar Dense="true" Elevation="0" Style="border-left: 1px solid var(--mud-palette-divider); border-bottom: 1px solid var(--mud-palette-divider); border-radius: 0" Color="Color.Default">
         <MudSpacer />
         <MudStack AlignItems="AlignItems.Center" Row="true">
             @* Not sure about styling here *@
@@ -19,10 +19,12 @@
     <MudDrawer Open="true"
                Variant="DrawerVariant.Persistent"
                Anchor="Anchor.Start"
-               Width="15em">
-        <MudImage Alt="Ticketsolve Flow Logo" Src="@($"images/logo{(IsDarkMode ? "-dark" : string.Empty)}.svg")" Style="padding: 1rem" />
+               Width="15em"
+               Elevation="0"
+                Style="border-radius: 0">
+        <MudImage Alt="Ticketsolve Flow Logo" Src="@($"images/logo.svg")" Style="padding: 1rem" />
         <MudNavMenu>
-            <MudNavLink Icon="@Icons.Material.Outlined.Dashboard" Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+            <MudNavLink Icon="@Icons.Material.Outlined.Dashboard" Href="/dashboard" Match="NavLinkMatch.All">Dashboard</MudNavLink>
             <MudNavLink Icon="@Icons.Material.Outlined.AllInbox" Href="/inbox" Match="NavLinkMatch.All">Inbox</MudNavLink>
         </MudNavMenu>
     </MudDrawer>
