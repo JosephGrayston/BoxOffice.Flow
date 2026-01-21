@@ -8,59 +8,75 @@ public static class Theme
     {
         PaletteLight = new PaletteLight()
         {
-            Primary = "#026AB7",
+            Primary = "#364D61",
             PrimaryContrastText = "#FFFFFF",
 
-            Secondary = "#69BD3B",
+            Secondary = "#304455",               
             SecondaryContrastText = "#FFFFFF",
 
-            AppbarBackground = "#FFFFFF",
-            AppbarText = "#0F172A",
+            Background = "#FFFFFF",
+            Surface = "#F0F0F0",
 
-            Background = "#F8FAFC",
-            Surface = "#FFFFFF",
+            AppbarBackground = "#F0F0F0",
+            AppbarText = "#000000",
+            DrawerBackground = "#F0F0F0",
 
-            TextPrimary = "#0F172A",
-            TextSecondary = "#6B7280",
-            TextDisabled = "#9CA3AF",
+            TextPrimary = "#000000",
+            TextSecondary = "#000000",
+            TextDisabled = "#000000",
 
-            ActionDefault = "#3B82F6",
-            ActionDisabled = "#D1D5DB",
+            ActionDefault = "#364D61",
+            ActionDisabled = "#8A8A8A",
 
-            Divider = "#E5E7EB",
-            TableLines = "#E5E7EB",
-            LinesDefault = "#E5E7EB",
+            Divider = "#E1E1E1",
+            TableLines = "#E1E1E1",
+            LinesDefault = "#E1E1E1",
+
+            Success = "#28BE8A",
+            Warning = "#DFAE44",
+            Error = "#D06262",
+            Info = "#347ADA",
         },
+
 
         PaletteDark = new PaletteDark()
         {
-            Primary = "#026AB7",
-            PrimaryContrastText = "#FFFFFF",
+            Primary = "#87B6D9",
+            PrimaryContrastText = "#000000",
 
-            Secondary = "#69BD3B",
-            SecondaryContrastText = "#FFFFFF",
+            Secondary = "#97BFDE",
+            SecondaryContrastText = "#000000",
 
-            Background = "#0F172A",
-            Surface = "#111827",
+            Background = "#121212",
+            Surface = "#282828",
 
-            AppbarBackground = "#0B1220",
-            DrawerBackground = "#0B1220",
+            AppbarBackground = "#282828",
+            AppbarText = "#FFFFFF",
+            DrawerBackground = "#282828",
 
-            TextPrimary = "#E5E7EB",
-            TextSecondary = "#9CA3AF",
-            TextDisabled = "#6B7280",
+            TextPrimary = "#FFFFFF",
+            TextSecondary = "#FFFFFF",
+            TextDisabled = "#FFFFFF",
 
-            Divider = "#1F2937",
-            TableLines = "#1F2937",
-            LinesDefault = "#1F2937",
+            // Actions
+            ActionDefault = "#87B6D9",
+            ActionDisabled = "#8E9091",
 
-            ActionDefault = "#60A5FA",
-            ActionDisabled = "#374151",
+            // Lines / borders
+            Divider = "#474A4C",
+            TableLines = "#474A4C",
+            LinesDefault = "#474A4C",
+
+            Success = "#47D5A6",
+            Warning = "#D7AC61",
+            Error = "#D94A4A",
+            Info = "#4077D1"
         },
+
 
         LayoutProperties = new LayoutProperties()
         {
-            DefaultBorderRadius = "8px",
+            DefaultBorderRadius = "6px",
             DrawerWidthLeft = "260px",
             DrawerMiniWidthLeft = "60px"
         },
@@ -69,7 +85,9 @@ public static class Theme
         {
             Default = new DefaultTypography
             {
-                FontFamily = ["Poppins", "Inter", "sans-serif"],
+                FontFamily = ["DM Sans", "Inter", "sans-serif"],
+                FontSize = "0.95rem",
+                FontWeight = "400"
             },
         }
     };
