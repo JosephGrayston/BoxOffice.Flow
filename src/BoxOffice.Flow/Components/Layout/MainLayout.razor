@@ -6,31 +6,99 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Dense="true" Elevation="0" Style="border-left: 1px solid var(--mud-palette-divider); border-bottom: 1px solid var(--mud-palette-divider); border-radius: 0" Color="Color.Default">
+
+    @* App bar *@
+    <MudAppBar Dense="false" Elevation="0" Fixed="true"
+               Style="border-bottom: 1px solid var(--mud-palette-divider);">
         <MudSpacer />
-        <MudStack AlignItems="AlignItems.Center" Row="true">
-            @* Not sure about styling here *@
-            <MudIconButton Icon="@GetThemeIcon()" OnClick="() => IsDarkMode = !IsDarkMode" Color="Color.Default" />
-            <MudIconButton Icon="@Icons.Material.Outlined.Settings" />
-            <MudText>Notifcation placeholder</MudText>
-            <MudText>Profile placeholder</MudText>
+        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
+            <MudTooltip Text="@(IsDarkMode ? "Switch to light mode" : "Switch to dark mode")" Placement="Placement.Bottom">
+                <MudIconButton Icon="@GetThemeIcon()" OnClick="ToggleTheme" Color="Color.Default" Size="Size.Medium" />
+            </MudTooltip>
+            <MudTooltip Text="Settings" Placement="Placement.Bottom">
+                <MudIconButton Icon="@Icons.Material.Outlined.Settings" Color="Color.Default" Size="Size.Medium" />
+            </MudTooltip>
+            <MudTooltip Text="Notifications" Placement="Placement.Bottom">
+                <MudBadge Content="3" Color="Color.Error" Overlap="true" Dot="true">
+                    <MudIconButton Icon="@Icons.Material.Outlined.NotificationsNone" Color="Color.Default" Size="Size.Medium" />
+                </MudBadge>
+            </MudTooltip>
+            <MudDivider Vertical="true" FlexItem="true" Style="height:24px; margin: 0 4px;" />
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2"
+                      Style="cursor:pointer; padding: 4px 8px; border-radius:8px;">
+                <MudAvatar Color="Color.Primary" Size="Size.Small"
+                           Style="font-size:0.75rem; font-weight:700;">JG</MudAvatar>
+                <MudStack Spacing="0" Style="line-height:1.1;">
+                    <MudText Typo="Typo.body2" Style="font-weight:600; font-size:0.8rem;">Joseph Grayston</MudText>
+                    <MudText Typo="Typo.caption" Color="Color.Secondary">Admin</MudText>
+                </MudStack>
+                <MudIcon Icon="@Icons.Material.Outlined.KeyboardArrowDown" Size="Size.Small" Color="Color.Secondary" />
+            </MudStack>
         </MudStack>
     </MudAppBar>
-    <MudDrawer Open="true"
-               Variant="DrawerVariant.Persistent"
-               Anchor="Anchor.Start"
-               Width="15em"
-               Elevation="0"
-                Style="border-radius: 0">
-        <MudImage Alt="Ticketsolve Flow Logo" Src="@($"images/logo-{(IsDarkMode ? "dark": "light")}.svg")" Style="padding: 1rem; margin: 0.5rem auto; width: 100px" />
-        <MudNavMenu>
-            <MudNavLink Icon="@Icons.Material.Outlined.Dashboard" Href="/dashboard" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-            <MudNavLink Icon="@Icons.Material.Outlined.AllInbox" Href="/inbox" Match="NavLinkMatch.All">Inbox</MudNavLink>
-        </MudNavMenu>
+
+    @* Sidebar *@
+    <MudDrawer Open="true" Variant="DrawerVariant.Persistent" Anchor="Anchor.Start"
+               Elevation="0" Style="border-right: 1px solid var(--mud-palette-divider);">
+
+        <MudDrawerHeader Style="padding: 14px 20px; min-height: 60px; display:flex; align-items:center; border-bottom: 1px solid var(--mud-palette-divider);">
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                <MudImage Alt="BoxOffice Flow"
+                          Src="@($"images/logo-{(IsDarkMode ? "dark" : "light")}.svg")"
+                          Style="width:30px; height:30px;" />
+                <MudStack Spacing="0">
+                    <MudText Style="font-weight:700; letter-spacing:-0.02em; line-height:1.1; font-size:0.88rem;">BoxOffice</MudText>
+                    <MudText Typo="Typo.caption" Color="Color.Secondary"
+                             Style="font-size:0.62rem; letter-spacing:0.09em; text-transform:uppercase; font-weight:600;">Flow</MudText>
+                </MudStack>
+            </MudStack>
+        </MudDrawerHeader>
+
+        <div style="padding: 12px 8px; flex:1; display:flex; flex-direction:column; gap:2px; overflow-y:auto;">
+
+            <MudText Typo="Typo.caption" Color="Color.Secondary"
+                     Style="padding: 6px 10px 4px; display:block; font-weight:700;
+                letter-spacing:0.07em; text-transform:uppercase; font-size:0.62rem;">
+                Overview
+            </MudText>
+
+            <MudNavMenu>
+                <MudNavLink Href="/dashboard" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.GridView">Dashboard</MudNavLink>
+                <MudNavLink Href="/inbox" Match="NavLinkMatch.All" Icon="@Icons.Material.Outlined.Inbox">Inbox</MudNavLink>
+            </MudNavMenu>
+
+            <MudText Typo="Typo.caption" Color="Color.Secondary"
+                     Style="padding: 14px 10px 4px; display:block; font-weight:700;
+                letter-spacing:0.07em; text-transform:uppercase; font-size:0.62rem;">
+                Management
+            </MudText>
+
+            <MudNavMenu>
+                <MudNavLink Href="/shows" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.TheaterComedy">Shows</MudNavLink>
+                <MudNavLink Href="/events" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.EventNote">Events</MudNavLink>
+                <MudNavLink Href="/reports" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.BarChart">Reports</MudNavLink>
+            </MudNavMenu>
+
+        </div>
+
+        <div style="padding: 8px; border-top: 1px solid var(--mud-palette-divider);">
+            <MudNavMenu>
+                <MudNavLink Href="/logout" Icon="@Icons.Material.Outlined.Logout"
+                            Style="color: var(--mud-palette-error) !important;">
+                    Sign out
+                </MudNavLink>
+            </MudNavMenu>
+        </div>
+
     </MudDrawer>
-    <MudMainContent>
-        @Body
+
+    @* Main content *@
+    <MudMainContent Style="background: var(--mud-palette-background); min-height: 100vh;">
+        <div style="padding: 28px 32px;">
+            @Body
+        </div>
     </MudMainContent>
+
 </MudLayout>
 
 <div id="blazor-error-ui" data-nosnippet>
@@ -42,5 +110,8 @@
 @code {
     private bool IsDarkMode { get; set; }
 
-    private string GetThemeIcon() => IsDarkMode ? Icons.Material.Outlined.LightMode : Icons.Material.Outlined.DarkMode;
+    private void ToggleTheme() => IsDarkMode = !IsDarkMode;
+
+    private string GetThemeIcon() =>
+        IsDarkMode ? Icons.Material.Outlined.LightMode : Icons.Material.Outlined.DarkMode;
 }

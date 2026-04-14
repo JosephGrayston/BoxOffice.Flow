@@ -8,87 +8,190 @@ public static class Theme
     {
         PaletteLight = new PaletteLight()
         {
-            Primary = "#364D61",
+            Primary = "#4F63D2",
             PrimaryContrastText = "#FFFFFF",
+            PrimaryDarken = "#3A4DB8",
+            PrimaryLighten = "#E8EBFB",
 
-            Secondary = "#304455",               
+            Secondary = "#7C8DB5",
             SecondaryContrastText = "#FFFFFF",
 
-            Background = "#FFFFFF",
-            Surface = "#F0F0F0",
+            Background = "#F4F6FA",
+            Surface = "#FFFFFF",
 
-            AppbarBackground = "#F0F0F0",
-            AppbarText = "#000000",
-            DrawerBackground = "#F0F0F0",
+            AppbarBackground = "#FFFFFF",
+            AppbarText = "#1A1F36",
+            DrawerBackground = "#FFFFFF",
+            DrawerText = "#1A1F36",
+            DrawerIcon = "#6B7A99",
 
-            TextPrimary = "#000000",
-            TextSecondary = "#000000",
-            TextDisabled = "#000000",
+            TextPrimary = "#1A1F36",
+            TextSecondary = "#6B7A99",
+            TextDisabled = "#B0BBCF",
 
-            ActionDefault = "#364D61",
-            ActionDisabled = "#8A8A8A",
+            ActionDefault = "#4F63D2",
+            ActionDisabled = "#B0BBCF",
+            ActionDisabledBackground = "#F0F2F8",
 
-            Divider = "#E1E1E1",
-            TableLines = "#E1E1E1",
-            LinesDefault = "#E1E1E1",
+            Divider = "#E8ECF4",
+            TableLines = "#E8ECF4",
+            LinesDefault = "#E8ECF4",
+            LinesInputs = "#C8D0E0",
 
-            Success = "#28BE8A",
-            Warning = "#DFAE44",
-            Error = "#D06262",
-            Info = "#347ADA",
+            Success = "#22C58B",
+            Warning = "#F5A623",
+            Error = "#E05252",
+            Info = "#3A8EF6",
+
+            HoverOpacity = 0.06,
+            RippleOpacity = 0.08,
         },
-
 
         PaletteDark = new PaletteDark()
         {
-            Primary = "#87B6D9",
-            PrimaryContrastText = "#000000",
+            Primary = "#7B8EF8",
+            PrimaryContrastText = "#0F1120",
+            PrimaryDarken = "#5C70F2",
+            PrimaryLighten = "#1D2245",
 
-            Secondary = "#97BFDE",
-            SecondaryContrastText = "#000000",
+            Secondary = "#8F9DBF",
+            SecondaryContrastText = "#0F1120",
 
-            Background = "#121212",
-            Surface = "#282828",
+            Background = "#0E1120",
+            Surface = "#161B30",
 
-            AppbarBackground = "#282828",
-            AppbarText = "#FFFFFF",
-            DrawerBackground = "#282828",
+            AppbarBackground = "#161B30",
+            AppbarText = "#E2E7F5",
+            DrawerBackground = "#161B30",
+            DrawerText = "#E2E7F5",
+            DrawerIcon = "#7B87A8",
 
-            TextPrimary = "#FFFFFF",
-            TextSecondary = "#FFFFFF",
-            TextDisabled = "#FFFFFF",
+            TextPrimary = "#E2E7F5",
+            TextSecondary = "#7B87A8",
+            TextDisabled = "#3D4562",
 
-            // Actions
-            ActionDefault = "#87B6D9",
-            ActionDisabled = "#8E9091",
+            ActionDefault = "#7B8EF8",
+            ActionDisabled = "#3D4562",
+            ActionDisabledBackground = "#1D2245",
 
-            // Lines / borders
-            Divider = "#474A4C",
-            TableLines = "#474A4C",
-            LinesDefault = "#474A4C",
+            Divider = "#232842",
+            TableLines = "#232842",
+            LinesDefault = "#232842",
+            LinesInputs = "#2F3658",
 
-            Success = "#47D5A6",
-            Warning = "#D7AC61",
-            Error = "#D94A4A",
-            Info = "#4077D1"
+            Success = "#2ED59A",
+            Warning = "#F5B84A",
+            Error = "#EF5B5B",
+            Info = "#5AA9F8",
+
+            HoverOpacity = 0.08,
+            RippleOpacity = 0.10,
         },
-
 
         LayoutProperties = new LayoutProperties()
         {
-            DefaultBorderRadius = "6px",
-            DrawerWidthLeft = "260px",
-            DrawerMiniWidthLeft = "60px"
+            DefaultBorderRadius = "10px",
+            DrawerWidthLeft = "240px",
+            DrawerMiniWidthLeft = "64px",
+            AppbarHeight = "60px",
         },
 
         Typography = new Typography()
         {
             Default = new DefaultTypography
             {
-                FontFamily = ["DM Sans", "Inter", "sans-serif"],
-                FontSize = "0.95rem",
-                FontWeight = "400"
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "0.9rem",
+                FontWeight = "400",
+                LineHeight = "1.6",
+                LetterSpacing = "-0.01em",
             },
+            H1 = new H1Typography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "2rem",
+                FontWeight = "700",
+                LineHeight = "1.2",
+                LetterSpacing = "-0.03em",
+            },
+            H2 = new H2Typography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "1.5rem",
+                FontWeight = "700",
+                LineHeight = "1.25",
+                LetterSpacing = "-0.02em",
+            },
+            H3 = new H3Typography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "1.2rem",
+                FontWeight = "600",
+                LineHeight = "1.3",
+                LetterSpacing = "-0.015em",
+            },
+            H4 = new H4Typography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "1rem",
+                FontWeight = "600",
+                LineHeight = "1.4",
+                LetterSpacing = "-0.01em",
+            },
+            H5 = new H5Typography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "0.875rem",
+                FontWeight = "600",
+                LineHeight = "1.4",
+            },
+            H6 = new H6Typography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "0.8rem",
+                FontWeight = "600",
+                LineHeight = "1.4",
+                LetterSpacing = "0.02em",
+            },
+            Body1 = new Body1Typography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "0.9rem",
+                FontWeight = "400",
+                LineHeight = "1.6",
+            },
+            Body2 = new Body2Typography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "0.8rem",
+                FontWeight = "400",
+                LineHeight = "1.5",
+            },
+            Caption = new CaptionTypography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "0.72rem",
+                FontWeight = "500",
+                LineHeight = "1.4",
+                LetterSpacing = "0.025em",
+            },
+            Button = new ButtonTypography
+            {
+                FontFamily = ["DM Sans", "sans-serif"],
+                FontSize = "0.85rem",
+                FontWeight = "600",
+                LetterSpacing = "0",
+                TextTransform = "none",
+            },
+        },
+
+        ZIndex = new ZIndex()
+        {
+            Drawer = 1200,
+            AppBar = 1100,
+            Dialog = 1300,
+            Popover = 1400,
+            Snackbar = 1500,
         }
     };
 }
