@@ -1,9 +1,237 @@
 ﻿@page "/dashboard"
 
-<PageTitle>Dashboard</PageTitle>
+<PageTitle>Dashboard — BoxOffice Flow</PageTitle>
 
-<h1>Hello, world!</h1>
+@* ── Page header ──────────────────────────────────────────────────── *@
+<MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween" Style="margin-bottom:28px;">
+    <MudStack Spacing="0">
+        <MudText Typo="Typo.h4">Dashboard</MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary">
+            Welcome back, Joseph. Here's what's happening today.
+        </MudText>
+    </MudStack>
+    <MudStack Row="true" Spacing="2">
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Default"
+                   StartIcon="@Icons.Material.Outlined.CalendarToday"
+                   Size="Size.Small">
+            This week
+        </MudButton>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Outlined.Add"
+                   Size="Size.Small">
+            New Event
+        </MudButton>
+    </MudStack>
+</MudStack>
 
-Welcome to your new app.
+@* ── KPI stat cards ───────────────────────────────────────────────── *@
+<MudGrid Spacing="3" Style="margin-bottom:28px;">
+    @foreach (var stat in _stats)
+    {
+        <MudItem xs="12" sm="6" lg="3">
+            <MudCard Elevation="1" Style="height:100%;">
+                <MudCardContent Style="padding:20px;">
+                    <MudStack Row="true" AlignItems="AlignItems.Start" Justify="Justify.SpaceBetween">
+                        <MudStack Spacing="1">
+                            <MudText Typo="Typo.caption" Color="Color.Secondary"
+                                     Style="font-weight:600; text-transform:uppercase; letter-spacing:0.06em;">
+                                @stat.Label
+                            </MudText>
+                            <MudText Style="font-size:1.75rem; font-weight:700; letter-spacing:-0.03em; line-height:1.1;">
+                                @stat.Value
+                            </MudText>
+                            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
+                                <MudIcon Icon="@(stat.TrendUp ? Icons.Material.Rounded.ArrowUpward : Icons.Material.Rounded.ArrowDownward)"
+                                         Size="Size.Small"
+                                         Style="@($"color: {(stat.TrendUp ? "var(--mud-palette-success)" : "var(--mud-palette-error)")}")" />
+                                <MudText Typo="Typo.caption"
+                                         Style="@($"font-weight:600; color: {(stat.TrendUp ? "var(--mud-palette-success)" : "var(--mud-palette-error)")}")">
+                                    @stat.Change
+                                </MudText>
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">vs last week</MudText>
+                            </MudStack>
+                        </MudStack>
+                        <div style="@($"width:44px; height:44px; border-radius:12px; background:{stat.IconBg}; display:flex; align-items:center; justify-content:center;")">
+                            <MudIcon Icon="@stat.Icon" Style="@($"color:{stat.IconColor}; font-size:20px;")" />
+                        </div>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
 
-<a href="/logout">Logout</a>
+@* ── Lower row ────────────────────────────────────────────────────── *@
+<MudGrid Spacing="3">
+
+    @* Upcoming shows *@
+    <MudItem xs="12" md="7">
+        <MudCard Elevation="1" Style="height:100%;">
+            <MudCardHeader Style="padding:20px 20px 0;">
+                <CardHeaderContent>
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
+                        <MudText Typo="Typo.h5">Upcoming Shows</MudText>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" Size="Size.Small"
+                                   EndIcon="@Icons.Material.Outlined.ArrowForward">
+                            View all
+                        </MudButton>
+                    </MudStack>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent Style="padding:12px 20px 20px;">
+                <MudTable Items="@_upcomingShows" Elevation="0" Hover="true"
+                          Dense="true" Striped="false"
+                          Style="background:transparent;">
+                    <HeaderContent>
+                        <MudTh Style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--mud-palette-text-secondary); border-bottom: 1px solid var(--mud-palette-divider); padding-bottom:8px;">Show</MudTh>
+                        <MudTh Style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--mud-palette-text-secondary); border-bottom: 1px solid var(--mud-palette-divider); padding-bottom:8px;">Date</MudTh>
+                        <MudTh Style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--mud-palette-text-secondary); border-bottom: 1px solid var(--mud-palette-divider); padding-bottom:8px;">Tickets</MudTh>
+                        <MudTh Style="font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--mud-palette-text-secondary); border-bottom: 1px solid var(--mud-palette-divider); padding-bottom:8px;">Status</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd>
+                            <MudText Typo="Typo.body2" Style="font-weight:600;">@context.Name</MudText>
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">@context.Venue</MudText>
+                        </MudTd>
+                        <MudTd>
+                            <MudText Typo="Typo.body2">@context.Date</MudText>
+                        </MudTd>
+                        <MudTd>
+                            <MudStack Spacing="1">
+                                <MudText Typo="Typo.body2" Style="font-weight:500;">
+                                    @context.SoldTickets / @context.TotalTickets
+                                </MudText>
+                                <MudProgressLinear Value="@((double)context.SoldTickets / context.TotalTickets * 100)"
+                                                   Color="@context.ProgressColor"
+                                                   Rounded="true" Size="Size.Small" />
+                            </MudStack>
+                        </MudTd>
+                        <MudTd>
+                            <MudChip T="string" Size="Size.Small" Variant="Variant.Filled"
+                                     Style="@GetStatusStyle(context.Status)"
+                                     Label="true">
+                                @context.Status
+                            </MudChip>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+
+    @* Inbox preview *@
+    <MudItem xs="12" md="5">
+        <MudCard Elevation="1" Style="height:100%;">
+            <MudCardHeader Style="padding:20px 20px 0;">
+                <CardHeaderContent>
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
+                        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                            <MudText Typo="Typo.h5">Inbox</MudText>
+                            <MudChip T="string" Size="Size.Small" Color="Color.Primary" Label="true" Style="height:20px; font-size:0.7rem; font-weight:700;">3</MudChip>
+                        </MudStack>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" Size="Size.Small"
+                                   EndIcon="@Icons.Material.Outlined.ArrowForward">
+                            View all
+                        </MudButton>
+                    </MudStack>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent Style="padding:12px 20px 20px;">
+                <MudStack Spacing="0">
+                    @foreach (var msg in _inboxItems)
+                    {
+                        <div style="padding: 12px 0; border-bottom: 1px solid var(--mud-palette-divider);">
+                            <MudStack Row="true" AlignItems="AlignItems.Start" Spacing="2">
+                                <MudAvatar Size="Size.Small" Color="@msg.AvatarColor"
+                                           Style="font-size:0.7rem; font-weight:700; flex-shrink:0;">
+                                    @msg.Initials
+                                </MudAvatar>
+                                <MudStack Spacing="0" Style="flex:1; min-width:0;">
+                                    <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
+                                        <MudText Typo="Typo.body2" Style="font-weight: 700;">
+                                            @msg.Sender
+                                        </MudText>
+                                        <MudText Typo="Typo.caption" Color="Color.Secondary">@msg.Time</MudText>
+                                    </MudStack>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary"
+                                             Style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:block;">
+                                        @msg.Preview
+                                    </MudText>
+                                </MudStack>
+                                @if (msg.Unread)
+                                {
+                                    <div style="width:7px; height:7px; border-radius:50%; background:var(--mud-palette-primary); flex-shrink:0; margin-top:6px;"></div>
+                                }
+                            </MudStack>
+                        </div>
+                    }
+                </MudStack>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+
+</MudGrid>
+
+@code {
+
+    // ── Stat cards ──────────────────────────────────────────────────
+    private sealed record StatCard(string Label, string Value, string Change, bool TrendUp,
+                            string Icon, string IconBg, string IconColor);
+
+    private readonly List<StatCard> _stats =
+    [
+        new("Total Revenue",   "£48,320",  "12.4%",  true,
+            Icons.Material.Outlined.CurrencyPound,
+            "#EEF0FD", "var(--mud-palette-primary)"),
+
+        new("Tickets Sold",    "1,284",    "8.1%",   true,
+            Icons.Material.Outlined.ConfirmationNumber,
+            "#E8F8F1", "#22C58B"),
+
+        new("Upcoming Shows",  "7",        "2",      true,
+            Icons.Material.Outlined.TheaterComedy,
+            "#FFF4E5", "#F5A623"),
+
+        new("Pending Actions", "3",        "1",      false,
+            Icons.Material.Outlined.PendingActions,
+            "#FDEEEE", "#E05252"),
+    ];
+
+    // ── Upcoming shows table ────────────────────────────────────────
+    private sealed record ShowRow(string Name, string Venue, string Date,
+                           int SoldTickets, int TotalTickets,
+                           Color ProgressColor, string Status);
+
+    private readonly List<ShowRow> _upcomingShows =
+    [
+        new("The Phantom Returns",   "Grand Theatre",  "Sat 19 Apr", 312, 350, Color.Success,  "On Sale"),
+        new("Comedy Gala Night",     "Studio One",     "Fri 25 Apr", 180, 200, Color.Success,  "On Sale"),
+        new("Classical Evening",     "City Hall",      "Sat 3 May",   95, 400, Color.Warning,  "Low Sales"),
+        new("Jazz & Blues Summer",   "Rooftop Venue",  "Fri 9 May",   40, 250, Color.Error,    "Attention"),
+        new("Shakespeare Festival",  "Open Air Stage", "Sun 18 May",   0, 500, Color.Default,  "Draft"),
+    ];
+
+    private static string GetStatusStyle(string status) => status switch
+    {
+        "On Sale"   => "background:#E8F8F1; color:#22C58B; border:none;",
+        "Low Sales" => "background:#FFF4E5; color:#F5A623; border:none;",
+        "Attention" => "background:#FDEEEE; color:#E05252; border:none;",
+        "Draft"     => "background:var(--mud-palette-action-disabled-background); color:var(--mud-palette-text-secondary); border:none;",
+        _           => string.Empty
+    };
+
+    // ── Inbox items ─────────────────────────────────────────────────
+    private sealed record InboxItem(string Sender, string Initials, string Preview,
+                             string Time, bool Unread, Color AvatarColor);
+
+    private readonly List<InboxItem> _inboxItems =
+    [
+        new("Ticketsolve Support", "TS", "Your API credentials have been renewed and are ready to use.", "9:14 am",  true,  Color.Primary),
+        new("Sarah Mitchell",      "SM", "Re: Weekend availability for the Classical Evening event?",   "Yesterday", true,  Color.Secondary),
+        new("Tom Davies",          "TD", "Box office reconciliation report for March is attached.",     "Yesterday", true,  Color.Success),
+        new("Venue Manager",       "VM", "Sound check confirmed for Thursday at 6pm. Please arrive early.", "Mon",  false, Color.Warning),
+        new("Finance Team",        "FT", "Invoice #2041 has been approved and scheduled for payment.", "Mon",        false, Color.Info),
+    ];
+}
