@@ -1,0 +1,17 @@
+﻿@if (CurrentUser is not null)
+{
+    <MudAvatar>
+        @if (AvatarUrl is not null)
+        {
+            <MudImage src="@AvatarUrl" alt="User Avatar" />
+        }
+        else
+        {
+            @CurrentUser.Initials
+        }
+    </MudAvatar>
+}
+else
+{
+    <div> No Users</div>
+}

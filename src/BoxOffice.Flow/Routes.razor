@@ -1,9 +1,11 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
+﻿@using BoxOffice.Flow.Components.Theme
+@using Microsoft.AspNetCore.Components.Authorization
 
+<ThemeProvider>
 <CascadingAuthenticationState>
     <Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(BoxOffice.Flow.Components.Layout.Common.NotFound)">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(BoxOffice.Flow.Components.Layout.MainLayout)">
+            <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(BoxOffice.Flow.Components.Layout.DashboardLayout)">
                 <NotAuthorized>
                     <RedirectToLogin />
                 </NotAuthorized>
@@ -12,3 +14,4 @@
         </Found>
     </Router>
 </CascadingAuthenticationState>
+</ThemeProvider>

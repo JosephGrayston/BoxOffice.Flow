@@ -6,8 +6,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BoxOffice.Flow.ServiceDefaults\BoxOffice.Flow.ServiceDefaults.csproj" />
+    <PackageReference Include="Microsoft.Graph" />
 
     <PackageReference Include="MudBlazor" />
     <PackageReference Include="Microsoft.Identity.Web" />
+    <PackageReference Include="Microsoft.Identity.Web.Azure" />
   </ItemGroup>
 </Project>

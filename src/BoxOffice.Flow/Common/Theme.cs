@@ -109,7 +109,7 @@ public static class Theme
             H1 = new H1Typography
             {
                 FontFamily = ["DM Sans", "sans-serif"],
-                FontSize = "2rem",
+                FontSize = "4rem",
                 FontWeight = "700",
                 LineHeight = "1.2",
                 LetterSpacing = "-0.03em",

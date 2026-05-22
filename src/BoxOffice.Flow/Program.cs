@@ -1,5 +1,6 @@
 using BoxOffice.Flow;
 using BoxOffice.Flow.Extensions;
+using BoxOffice.Flow.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.ConfigureMudBlazor();
 builder.Services.ConfigureIdentity(builder.Configuration);
+builder.Services.ConfigureMicrosoftGraphClient(builder.Configuration);
+builder.Services.ConfigureServices();
 
 var app = builder.Build();
 

@@ -1,9 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using BoxOffice.Flow.Components.Theme
 
-<MudThemeProvider Theme="@Theme.Instance" IsDarkMode="IsDarkMode" />
-<MudPopoverProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+@inherits LayoutComponentBase
+
+@inject ThemeService ThemeService
 
 <MudLayout>
 
@@ -12,8 +11,8 @@
                Style="border-bottom: 1px solid var(--mud-palette-divider);">
         <MudSpacer />
         <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
-            <MudTooltip Text="@(IsDarkMode ? "Switch to light mode" : "Switch to dark mode")" Placement="Placement.Bottom">
-                <MudIconButton Icon="@GetThemeIcon()" OnClick="ToggleTheme" Color="Color.Default" Size="Size.Medium" />
+            <MudTooltip Text="@(ThemeService.IsDarkMode ? "Switch to light mode" : "Switch to dark mode")" Placement="Placement.Bottom">
+                <MudIconButton Icon="@GetThemeIcon()" OnClick="ThemeService.Toggle" Color="Color.Default" Size="Size.Medium" />
             </MudTooltip>
             <MudTooltip Text="Settings" Placement="Placement.Bottom">
                 <MudIconButton Icon="@Icons.Material.Outlined.Settings" Color="Color.Default" Size="Size.Medium" />
@@ -44,7 +43,7 @@
         <MudDrawerHeader Style="padding: 14px 20px; min-height: 60px; display:flex; align-items:center; border-bottom: 1px solid var(--mud-palette-divider);">
             <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
                 <MudImage Alt="BoxOffice Flow"
-                          Src="@($"images/logo-{(IsDarkMode ? "dark" : "light")}.svg")"
+                          Src="@($"images/logo-{(ThemeService.IsDarkMode ? "dark" : "light")}.svg")"
                           Style="width:30px; height:30px;" />
                 <MudStack Spacing="0">
                     <MudText Style="font-weight:700; letter-spacing:-0.02em; line-height:1.1; font-size:0.88rem;">BoxOffice</MudText>
@@ -108,10 +107,6 @@
 </div>
 
 @code {
-    private bool IsDarkMode { get; set; }
-
-    private void ToggleTheme() => IsDarkMode = !IsDarkMode;
-
     private string GetThemeIcon() =>
-        IsDarkMode ? Icons.Material.Outlined.LightMode : Icons.Material.Outlined.DarkMode;
+        ThemeService.IsDarkMode ? Icons.Material.Outlined.LightMode : Icons.Material.Outlined.DarkMode;
 }
