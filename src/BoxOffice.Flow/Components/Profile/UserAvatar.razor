@@ -1,4 +1,4 @@
-﻿@if (CurrentUser is not null)
+﻿@if (UserProfile is not null)
 {
     <MudAvatar>
         @if (AvatarUrl is not null)
@@ -7,11 +7,7 @@
         }
         else
         {
-            @CurrentUser.Initials
+            @UserProfile.Initials
         }
     </MudAvatar>
-}
-else
-{
-    <div> No Users</div>
 }

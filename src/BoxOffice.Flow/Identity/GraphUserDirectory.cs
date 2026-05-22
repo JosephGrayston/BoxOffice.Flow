@@ -2,11 +2,11 @@
 
 namespace BoxOffice.Flow.Identity;
 
-public class GraphUserDirectory(GraphServiceClient graphServiceClient) : IUserDirectory
+public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient) : IUserDirectory
 {
     private readonly GraphServiceClient _graphClient = graphServiceClient;
 
-    public async Task<User?> GetUserAsync(string userId)
+    public async Task<UserProfile?> GetUserAsync(string userId)
     {
         try
         {
@@ -17,7 +17,7 @@ public class GraphUserDirectory(GraphServiceClient graphServiceClient) : IUserDi
                 return null;
             }
 
-            return new User
+            return new UserProfile
             {
                 DisplayName = currentUser.DisplayName,
                 Email = currentUser.Mail,

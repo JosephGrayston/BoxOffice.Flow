@@ -2,16 +2,16 @@
 
 namespace BoxOffice.Flow.Identity;
 
-public class CachedUserDirectory(IUserDirectory userDirectory, IMemoryCache cache) : IUserDirectory
+public sealed class CachedUserDirectory(IUserDirectory userDirectory, IMemoryCache cache) : IUserDirectory
 {
     private readonly IUserDirectory _userDirectory = userDirectory;
     private readonly IMemoryCache _cache = cache;
 
-    public async Task<User?> GetUserAsync(string userId)
+    public async Task<UserProfile?> GetUserAsync(string userId)
     {
         var cacheKey = $"user:{userId}";
 
-        if (_cache.TryGetValue(cacheKey, out User? cachedUser))
+        if (_cache.TryGetValue(cacheKey, out UserProfile? cachedUser))
         {
             return cachedUser;
         }
@@ -44,4 +44,4 @@ public class CachedUserDirectory(IUserDirectory userDirectory, IMemoryCache cach
 
         return userPhoto;
     }
-}
+} 

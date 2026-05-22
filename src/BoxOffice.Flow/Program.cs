@@ -14,6 +14,7 @@ builder.Services.ConfigureMudBlazor();
 builder.Services.ConfigureIdentity(builder.Configuration);
 builder.Services.ConfigureMicrosoftGraphClient(builder.Configuration);
 builder.Services.ConfigureServices();
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 

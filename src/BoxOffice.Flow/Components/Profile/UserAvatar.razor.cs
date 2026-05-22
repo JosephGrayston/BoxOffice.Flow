@@ -6,18 +6,17 @@ namespace BoxOffice.Flow.Components.Profile;
 public partial class UserAvatar
 {
     [Inject]
-    private CachedUserDirectory UserDirectory { get; set; } = default!;
+    private UserFacade UserFacade { get; set; } = null!;
 
-    private User? CurrentUser { get; set; }
+    private UserProfile? UserProfile { get; set; }
 
-    private string? AvatarUrl { get; set; }    
+    private string? AvatarUrl { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        // TO DO: Replace "123" with the actual user ID of the currently logged-in user, which can be obtained from the authentication context or a similar mechanism.
-        CurrentUser = await UserDirectory.GetUserAsync("123");
+        UserProfile = await UserFacade.GetUserAsync();
 
-        if (CurrentUser is not null)
+        if (UserProfile is not null)
         {
             _ = LoadAvatarPhotoAsync();
         }
@@ -25,7 +24,7 @@ public partial class UserAvatar
 
     private async Task LoadAvatarPhotoAsync()
     {
-        AvatarUrl = await UserDirectory.GetUserPhotoAsync("123");
+        AvatarUrl = await UserFacade.GetUserPhotoAsync();
 
         await InvokeAsync(StateHasChanged);
     }

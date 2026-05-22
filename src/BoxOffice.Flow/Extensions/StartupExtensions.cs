@@ -52,10 +52,9 @@ public static class StartupExtensions
 
     public static void ConfigureServices(this IServiceCollection services)
     {
-        services.AddMemoryCache();
         services.AddScoped<ThemeService>();
         services.AddScoped<GraphUserDirectory>();
-
+        services.AddScoped<CurrentUserAccessor>();
         services.AddScoped<IUserDirectory>(sp =>
         {
             var graph = sp.GetRequiredService<GraphUserDirectory>();
@@ -63,5 +62,6 @@ public static class StartupExtensions
 
             return new CachedUserDirectory(graph, cache);
         });
+        services.AddScoped<UserFacade>();
     }
 }

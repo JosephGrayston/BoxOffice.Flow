@@ -1,6 +1,6 @@
 ﻿using BoxOffice.Flow.Components.Theme;
+using BoxOffice.Flow.Identity;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BoxOffice.Flow.Features.Home;
 
@@ -9,24 +9,17 @@ public partial class Home
     [Inject]
     private ThemeService ThemeService { get; set; } = default!;
 
-    [CascadingParameter]
-    private Task<AuthenticationState>? AuthenticationState { get; set; }
+    [Inject]
+    private UserFacade UserFacade { get; set; } = default!;
 
-    private bool IsAuthenticated { get; set; }
+    private UserProfile? UserProfile { get; set; }
 
-    private string Username { get; set; } = string.Empty;
+    private CurrentUserContext? UserContext { get; set; }
 
     protected override async Task OnParametersSetAsync()
-    { 
-        if (AuthenticationState == null)
-        {
-            throw new InvalidOperationException("AuthenticationState is not provided. Ensure that the component is wrapped in a CascadingAuthenticationState.");
-        }
+    {
+        UserProfile = await UserFacade.GetUserAsync();
 
-        var authState = await AuthenticationState;
-        var identity = authState.User.Identity;
-
-        IsAuthenticated = identity?.IsAuthenticated ?? false;
-        Username = identity?.Name ?? string.Empty;
+        UserContext = await UserFacade.GetUserContextAsync();
     }
 }

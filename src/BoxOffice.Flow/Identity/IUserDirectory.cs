@@ -2,7 +2,7 @@
 
 public interface IUserDirectory
 {
-    Task<User?> GetUserAsync(string userId);
+    Task<UserProfile?> GetUserAsync(string userId);
 
     Task<string?> GetUserPhotoAsync(string userId);
 }

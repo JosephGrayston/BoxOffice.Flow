@@ -21,7 +21,7 @@
         <MudStack Spacing="6" AlignItems="AlignItems.Center">
             <MudStack Spacing="2">
                 <MudText Typo="Typo.h1" Align="Align.Center">
-                    @(IsAuthenticated ? $"Welcome back, {Username}!" : "Box Office Flow")
+                    @(UserContext?.IsAuthenticated == true ? $"Welcome back, {UserProfile?.DisplayName}!" : "Box Office Flow")
                 </MudText>
                 <MudText Typo="Typo.h3" Color="Color.Secondary" Align="Align.Center">
                     Manage your shows, events, and reports all in one place
