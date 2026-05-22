@@ -1,8 +1,8 @@
-﻿using Azure.Core;
-using BoxOffice.Flow.Components.Theme;
-using BoxOffice.Flow.Components.UserProfile;
+﻿using BoxOffice.Flow.Components.Theme;
 using BoxOffice.Flow.Features.Auth;
+using BoxOffice.Flow.Identity;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Graph;
 using Microsoft.Identity.Web;
 using MudBlazor.Services;
@@ -52,7 +52,16 @@ public static class StartupExtensions
 
     public static void ConfigureServices(this IServiceCollection services)
     {
+        services.AddMemoryCache();
         services.AddScoped<ThemeService>();
-        services.AddScoped<CurrentUserService>();
+        services.AddScoped<GraphUserDirectory>();
+
+        services.AddScoped<IUserDirectory>(sp =>
+        {
+            var graph = sp.GetRequiredService<GraphUserDirectory>();
+            var cache = sp.GetRequiredService<IMemoryCache>();
+
+            return new CachedUserDirectory(graph, cache);
+        });
     }
 }

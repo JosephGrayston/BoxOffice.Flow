@@ -1,5 +1,4 @@
 ﻿using BoxOffice.Flow.Components.Theme;
-using BoxOffice.Flow.Components.UserProfile;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 

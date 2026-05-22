@@ -1,6 +1,6 @@
-﻿namespace BoxOffice.Flow.Components.UserProfile;
+﻿namespace BoxOffice.Flow.Identity;
 
-public record CurrentUser
+public record User
 {
     public string? DisplayName { get; set; }
 
