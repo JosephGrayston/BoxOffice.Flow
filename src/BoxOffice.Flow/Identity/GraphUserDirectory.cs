@@ -12,6 +12,8 @@ public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient, IL
     {
         try
         {
+            // TO - DO: Remove hardcoded user id and use the userId parameter instead.
+            // Temp to test logging
             var currentUser = await _graphClient.Users["100"].GetAsync();
 
             if (currentUser is null)
@@ -32,8 +34,6 @@ public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient, IL
 
         return null;
     }
-
-    
 
     public async Task<string?> GetUserPhotoAsync(string userId)
     {
