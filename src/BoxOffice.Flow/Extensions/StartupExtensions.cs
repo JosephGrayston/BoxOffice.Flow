@@ -64,4 +64,11 @@ public static class StartupExtensions
         });
         services.AddScoped<UserFacade>();
     }
+
+    public static void ConfigureLogging(this WebApplicationBuilder builder)
+    {
+        builder.Logging.ClearProviders();
+
+        builder.Logging.AddConsole();
+    }
 }

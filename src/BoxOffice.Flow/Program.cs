@@ -1,5 +1,6 @@
 using BoxOffice.Flow;
 using BoxOffice.Flow.Extensions;
+using BoxOffice.Flow.Middleware;
 using BoxOffice.Flow.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.ConfigureIdentity(builder.Configuration);
 builder.Services.ConfigureMicrosoftGraphClient(builder.Configuration);
 builder.Services.ConfigureServices();
 builder.Services.AddMemoryCache();
+builder.ConfigureLogging();
 
 var app = builder.Build();
 
@@ -37,6 +39,8 @@ app.UseAntiforgery();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<RequestContextLoggingMiddleware>();
 
 app.MapStaticAssets()
     .AllowAnonymous();
