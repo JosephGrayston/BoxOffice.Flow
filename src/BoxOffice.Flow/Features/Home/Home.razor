@@ -1,7 +1,61 @@
-﻿@using Microsoft.AspNetCore.Authorization
+﻿@using BoxOffice.Flow.Components.Profile
+@using BoxOffice.Flow.Components.Theme
+@using BoxOffice.Flow.Features.Home.Components
+@using Microsoft.AspNetCore.Authorization
 
-@page "/"
-@layout HomeLayout
 @attribute [AllowAnonymous]
 
-<p>Welcome to the BoxOffice application!</p>
+@layout HomeLayout
+
+@page "/"
+
+<MudContainer Class="py-3">
+    <MudContainer>
+        <MudStack Justify="Justify.SpaceBetween" Row="true">
+            <MudImage Src="@($"images/logo-{(ThemeService.IsDarkMode ? "dark" : "light")}.svg")" Alt="Box Office Flow Logo" Style="max-width: 3rem; width: 100%; height: auto" />
+            <UserAvatar />
+        </MudStack>
+    </MudContainer>
+
+    <MudContainer Class="py-16">
+        <MudStack Spacing="6" AlignItems="AlignItems.Center">
+            <MudStack Spacing="2">
+                <MudText Typo="Typo.h1" Align="Align.Center">
+                    @(UserContext?.IsAuthenticated == true ? $"Welcome back, {UserProfile?.DisplayName}!" : "Box Office Flow")
+                </MudText>
+                <MudText Typo="Typo.h3" Color="Color.Secondary" Align="Align.Center">
+                    Manage your shows, events, and reports all in one place
+                </MudText>
+            </MudStack>
+
+            <MudStack Row="true" Spacing="2" Class="mt-4">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large"
+                           Href="/dashboard" Class="py-3 px-8" Style="line-height: 1.2; text-align: center;">
+                    <MudIcon Icon="@Icons.Material.Outlined.GridView" Class="mr-2" />
+                    Go to Dashboard
+                </MudButton>
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large"
+                           Href="/events" Class="py-3 px-8" Style="line-height: 1.2; text-align: center;">
+                    <MudIcon Icon="@Icons.Material.Outlined.TheaterComedy" Class="mr-2" />
+                    Latest events
+                </MudButton>
+            </MudStack>
+        </MudStack>
+    </MudContainer>
+
+    <MudContainer Class="py-12">
+        <MudGrid Spacing="4" Justify="Justify.Center">
+            <MudItem xs="12" sm="6" md="4">
+                <FeatureCard Icon="@Icons.Material.Outlined.Dashboard" Colour="Color.Primary" Title="Quick Dashboard" Description="Monitor your shows and events with real-time analytics" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4">
+                <FeatureCard Icon="@Icons.Material.Outlined.ManageAccounts" Colour="Color.Success" Title="Event Management" Description="Create and manage events with ease" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4">
+                <FeatureCard Icon="@Icons.Material.Outlined.BarChart" Colour="Color.Warning" Title="Advanced Reports" Description="Generate detailed insights and analytics" />
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+</MudContainer>
