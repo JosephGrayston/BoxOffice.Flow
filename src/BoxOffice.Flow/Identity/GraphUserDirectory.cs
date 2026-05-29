@@ -12,9 +12,7 @@ public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient, IL
     {
         try
         {
-            // TO - DO: Remove hardcoded user id and use the userId parameter instead.
-            // Temp to test logging
-            var currentUser = await _graphClient.Users["100"].GetAsync();
+            var currentUser = await _graphClient.Users[userId].GetAsync();
 
             if (currentUser is null)
             {
