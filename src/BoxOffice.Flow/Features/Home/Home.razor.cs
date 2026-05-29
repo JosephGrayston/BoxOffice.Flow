@@ -18,7 +18,7 @@ public partial class Home
 
     protected override async Task OnParametersSetAsync()
     {
-        UserProfile = await UserFacade.GetUserAsync();
+        UserProfile = await UserFacade.GetUserAsync(CancellationToken);
 
         UserContext = await UserFacade.GetUserContextAsync();
     }

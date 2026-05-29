@@ -1,4 +1,5 @@
-﻿using BoxOffice.Flow.Identity;
+﻿using BoxOffice.Flow.Components.Common;
+using BoxOffice.Flow.Identity;
 using Microsoft.AspNetCore.Components;
 
 namespace BoxOffice.Flow.Components.Profile;
@@ -14,7 +15,7 @@ public partial class UserAvatar
 
     protected override async Task OnInitializedAsync()
     {
-        UserProfile = await UserFacade.GetUserAsync();
+        UserProfile = await UserFacade.GetUserAsync(CancellationToken);
 
         if (UserProfile is not null)
         {
@@ -24,7 +25,7 @@ public partial class UserAvatar
 
     private async Task LoadAvatarPhotoAsync()
     {
-        AvatarUrl = await UserFacade.GetUserPhotoAsync();
+        AvatarUrl = await UserFacade.GetUserPhotoAsync(CancellationToken);
 
         await InvokeAsync(StateHasChanged);
     }

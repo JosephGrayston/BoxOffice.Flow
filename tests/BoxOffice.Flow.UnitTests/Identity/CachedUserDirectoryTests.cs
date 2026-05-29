@@ -19,13 +19,13 @@ public sealed class CachedUserDirectoryTests
     [TestMethod]
     public async Task GetUserAsyncWithCacheMissRequestsAndReturnsUser()
     {
-        _mockUserDirectory.Setup(x => x.GetUserAsync("123")).ReturnsAsync(new UserProfile { DisplayName = "Test User", Email = "test@example.com" });
+        _mockUserDirectory.Setup(x => x.GetUserAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync(new UserProfile { DisplayName = "Test User", Email = "test@example.com" });
 
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
 
-        var result = await cachedUserDirectory.GetUserAsync("123");
+        var result = await cachedUserDirectory.GetUserAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserAsync("123"), Times.Once);
+        _mockUserDirectory.Verify(x => x.GetUserAsync("123", It.IsAny<CancellationToken>()), Times.Once);
 
         result.ShouldNotBeNull();
         result?.DisplayName.ShouldBe("Test User");
@@ -40,43 +40,43 @@ public sealed class CachedUserDirectoryTests
             Email = "cachedtest@example.com"
         };
 
-        _mockUserDirectory.Setup(x => x.GetUserAsync("123")).ReturnsAsync(userProfile);
+        _mockUserDirectory.Setup(x => x.GetUserAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync(userProfile);
 
         using var cache = new MemoryCache(new MemoryCacheOptions());
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, cache);
 
         cache.Set("user:123", userProfile);
 
-        var result = await cachedUserDirectory.GetUserAsync("123");
+        var result = await cachedUserDirectory.GetUserAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserAsync("123"), Times.Never);
+        _mockUserDirectory.Verify(x => x.GetUserAsync("123", It.IsAny<CancellationToken>()), Times.Never);
         result.ShouldBeSameAs(userProfile);
     }
 
     [TestMethod]
     public async Task GetUserAsyncWhenCalledTwiceOnlyCallsUserDirectoryOnce()
     {
-        _mockUserDirectory.Setup(x => x.GetUserAsync("123")).ReturnsAsync(new UserProfile { DisplayName = "Cached User", Email = "cachedtest@example.com" });
+        _mockUserDirectory.Setup(x => x.GetUserAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync(new UserProfile { DisplayName = "Cached User", Email = "cachedtest@example.com" });
 
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
 
-        await cachedUserDirectory.GetUserAsync("123");
-        await cachedUserDirectory.GetUserAsync("123");
+        await cachedUserDirectory.GetUserAsync("123", CancellationToken.None);
+        await cachedUserDirectory.GetUserAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserAsync("123"), Times.Once);
+        _mockUserDirectory.Verify(x => x.GetUserAsync("123", It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [TestMethod]
     public async Task GetUserAsyncWhenUserDirectoryReturnsNullDoesNotCache()
     {
-        _mockUserDirectory.Setup(x => x.GetUserAsync("123")).ReturnsAsync((UserProfile?)null);
+        _mockUserDirectory.Setup(x => x.GetUserAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync((UserProfile?)null);
 
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
 
-        var result1 = await cachedUserDirectory.GetUserAsync("123");
-        var result2 = await cachedUserDirectory.GetUserAsync("123");
+        var result1 = await cachedUserDirectory.GetUserAsync("123", CancellationToken.None);
+        var result2 = await cachedUserDirectory.GetUserAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserAsync("123"), Times.Exactly(2));
+        _mockUserDirectory.Verify(x => x.GetUserAsync("123", It.IsAny<CancellationToken>()), Times.Exactly(2));
         result1.ShouldBeNull();
         result2.ShouldBeNull();
     }
@@ -84,30 +84,30 @@ public sealed class CachedUserDirectoryTests
     [TestMethod]
     public async Task GetUserAsyncWhenCacheExpiredCallsUserDirectoryAgain()
     {
-        _mockUserDirectory.Setup(x => x.GetUserAsync("123")).ReturnsAsync(new UserProfile { DisplayName = "Cached User", Email = "cachedtest@example.com" });
+        _mockUserDirectory.Setup(x => x.GetUserAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync(new UserProfile { DisplayName = "Cached User", Email = "cachedtest@example.com" });
 
         using var cache = new MemoryCache(new MemoryCacheOptions());
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, cache);
 
-        await cachedUserDirectory.GetUserAsync("123");
+        await cachedUserDirectory.GetUserAsync("123", CancellationToken.None);
 
         cache?.Remove("user:123");
 
-        await cachedUserDirectory.GetUserAsync("123");
+        await cachedUserDirectory.GetUserAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserAsync("123"), Times.Exactly(2));
+        _mockUserDirectory.Verify(x => x.GetUserAsync("123", It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
 
     [TestMethod]
     public async Task GetUserPhotoAsyncWithCacheMissRequestsAndReturnsUserPhoto()
     {
-        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123")).ReturnsAsync("user-photo.jpg");
+        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync("user-photo.jpg");
 
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
 
-        var result = await cachedUserDirectory.GetUserPhotoAsync("123");
+        var result = await cachedUserDirectory.GetUserPhotoAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123"), Times.Once);
+        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>()), Times.Once);
 
         result.ShouldNotBeNull();
         result.ShouldBe("user-photo.jpg");
@@ -119,43 +119,43 @@ public sealed class CachedUserDirectoryTests
     {
         var userPhoto = "user-photo.jpg";
 
-        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123")).ReturnsAsync(userPhoto);
+        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync(userPhoto);
 
         using var cache = new MemoryCache(new MemoryCacheOptions());
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, cache);
 
         cache.Set("userPhoto:123", userPhoto);
 
-        var result = await cachedUserDirectory.GetUserPhotoAsync("123");
+        var result = await cachedUserDirectory.GetUserPhotoAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123"), Times.Never);
+        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>()), Times.Never);
         result.ShouldBeSameAs(userPhoto);
     }
 
     [TestMethod]
     public async Task GetUserPhotoAsyncWhenCalledTwiceOnlyCallsUserDirectoryOnce()
     {
-        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123")).ReturnsAsync("user-photo.jpg");
+        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync("user-photo.jpg");
 
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
 
-        await cachedUserDirectory.GetUserPhotoAsync("123");
-        await cachedUserDirectory.GetUserPhotoAsync("123");
+        await cachedUserDirectory.GetUserPhotoAsync("123", CancellationToken.None);
+        await cachedUserDirectory.GetUserPhotoAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123"), Times.Once);
+        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [TestMethod]
     public async Task GetUserPhotoAsyncWhenUserDirectoryReturnsNullDoesNotCache()
     {
-        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123")).ReturnsAsync((string?)null);
+        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync((string?)null);
 
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
 
-        var result1 = await cachedUserDirectory.GetUserPhotoAsync("123");
-        var result2 = await cachedUserDirectory.GetUserPhotoAsync   ("123");
+        var result1 = await cachedUserDirectory.GetUserPhotoAsync("123", CancellationToken.None);
+        var result2 = await cachedUserDirectory.GetUserPhotoAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123"), Times.Exactly(2));
+        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>()), Times.Exactly(2));
         result1.ShouldBeNull();
         result2.ShouldBeNull();
     }
@@ -163,18 +163,18 @@ public sealed class CachedUserDirectoryTests
     [TestMethod]
     public async Task GetUserPhotoAsyncWhenCacheExpiredCallsUserDirectoryAgain()
     {
-        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123")).ReturnsAsync("user-photo.jpg");
+        _mockUserDirectory.Setup(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>())).ReturnsAsync("user-photo.jpg");
 
         using var cache = new MemoryCache(new MemoryCacheOptions());
         var cachedUserDirectory = new CachedUserDirectory(_mockUserDirectory.Object, cache);
 
-        await cachedUserDirectory.GetUserPhotoAsync("123");
-        
+        await cachedUserDirectory.GetUserPhotoAsync("123", CancellationToken.None);
+
         cache?.Remove("userPhoto:123");
 
-        await cachedUserDirectory.GetUserPhotoAsync("123");
+        await cachedUserDirectory.GetUserPhotoAsync("123", CancellationToken.None);
 
-        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123"), Times.Exactly(2));
+        _mockUserDirectory.Verify(x => x.GetUserPhotoAsync("123", It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
 
 }
