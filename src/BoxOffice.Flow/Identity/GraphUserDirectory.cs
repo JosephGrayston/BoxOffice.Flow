@@ -1,10 +1,12 @@
 ﻿using Microsoft.Graph;
+using Microsoft.Graph.Models.ODataErrors;
 
 namespace BoxOffice.Flow.Identity;
 
-public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient) : IUserDirectory
+public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient, ILogger<GraphUserDirectory> logger) : IUserDirectory
 {
     private readonly GraphServiceClient _graphClient = graphServiceClient;
+    private readonly ILogger<GraphUserDirectory> _logger = logger;
 
     public async Task<UserProfile?> GetUserAsync(string userId)
     {
@@ -23,9 +25,9 @@ public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient) : 
                 Email = currentUser.Mail,
             };
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            // TO DO: Log the exception
+            UserLogs.FailedToRetrieveUser(_logger, userId, ex);
         }
 
         return null;
@@ -55,9 +57,13 @@ public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient) : 
             return
                 $"data:image/jpeg;base64,{Convert.ToBase64String(imageBytes)}";
         }
-        catch (Exception)
+        catch (ODataError)
         {
-            // TO DO: Log the exception
+            // Swallow the exception and return null if the user does not have a photo or if there is an error retrieving it.
+        }
+        catch (Exception ex)
+        {
+            UserLogs.FailedToRetrievePhoto(_logger, userId, ex);
         }
 
         return null;
