@@ -7,7 +7,7 @@ public sealed class CachedUserDirectory(IUserDirectory userDirectory, IMemoryCac
     private readonly IUserDirectory _userDirectory = userDirectory;
     private readonly IMemoryCache _cache = cache;
 
-    public async Task<UserProfile?> GetUserAsync(string userId)
+    public async Task<UserProfile?> GetUserAsync(string userId, CancellationToken cancellationToken)
     {
         var cacheKey = $"user:{userId}";
 
@@ -16,7 +16,7 @@ public sealed class CachedUserDirectory(IUserDirectory userDirectory, IMemoryCac
             return cachedUser;
         }
 
-        var user = await _userDirectory.GetUserAsync(userId);
+        var user = await _userDirectory.GetUserAsync(userId, cancellationToken);
 
         if (user is not null)
         {
@@ -26,7 +26,7 @@ public sealed class CachedUserDirectory(IUserDirectory userDirectory, IMemoryCac
         return user;
     }
 
-    public async Task<string?> GetUserPhotoAsync(string userId)
+    public async Task<string?> GetUserPhotoAsync(string userId, CancellationToken cancellationToken )
     {
         var cacheKey = $"userPhoto:{userId}";
 
@@ -35,7 +35,7 @@ public sealed class CachedUserDirectory(IUserDirectory userDirectory, IMemoryCac
             return cachedUserPhoto;
         }
 
-        var userPhoto = await _userDirectory.GetUserPhotoAsync(userId);
+        var userPhoto = await _userDirectory.GetUserPhotoAsync(userId, cancellationToken);
 
         if (userPhoto is not null)
         {

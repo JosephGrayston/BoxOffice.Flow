@@ -8,11 +8,11 @@ public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient, IL
     private readonly GraphServiceClient _graphClient = graphServiceClient;
     private readonly ILogger<GraphUserDirectory> _logger = logger;
 
-    public async Task<UserProfile?> GetUserAsync(string userId)
+    public async Task<UserProfile?> GetUserAsync(string userId, CancellationToken cancellationToken)
     {
         try
         {
-            var currentUser = await _graphClient.Users[userId].GetAsync();
+            var currentUser = await _graphClient.Users[userId].GetAsync(cancellationToken: cancellationToken);
 
             if (currentUser is null)
             {
@@ -33,9 +33,9 @@ public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient, IL
         return null;
     }
 
-    public async Task<string?> GetUserPhotoAsync(string userId)
+    public async Task<string?> GetUserPhotoAsync(string userId, CancellationToken cancellationToken)
     {
-        var user = await GetUserAsync(userId);
+        var user = await GetUserAsync(userId, cancellationToken);
 
         if (user is null)
             return null;
@@ -43,14 +43,14 @@ public sealed class GraphUserDirectory(GraphServiceClient graphServiceClient, IL
         try
         {
             using var stream =
-                await _graphClient.Users[userId].Photo.Content.GetAsync();
+                await _graphClient.Users[userId].Photo.Content.GetAsync(cancellationToken: cancellationToken);
 
             if (stream is null)
                 return null;
 
             using var memoryStream = new MemoryStream();
 
-            await stream.CopyToAsync(memoryStream);
+            await stream.CopyToAsync(memoryStream, cancellationToken);
 
             var imageBytes = memoryStream.ToArray();
 

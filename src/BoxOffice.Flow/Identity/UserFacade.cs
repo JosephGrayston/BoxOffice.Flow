@@ -7,7 +7,7 @@ public sealed class UserFacade(CurrentUserAccessor currentUserAccessor, IUserDir
 
     public async Task<CurrentUserContext> GetUserContextAsync() => await _currentUserAccessor.GetCurrentUserAsync();
 
-    public async Task<UserProfile?> GetUserAsync()
+    public async Task<UserProfile?> GetUserAsync(CancellationToken cancellationToken)
     {
         var user = await _currentUserAccessor.GetCurrentUserAsync();
 
@@ -16,10 +16,10 @@ public sealed class UserFacade(CurrentUserAccessor currentUserAccessor, IUserDir
             return null;
         }
 
-        return await _userDirectory.GetUserAsync(user.UserId);
+        return await _userDirectory.GetUserAsync(user.UserId, cancellationToken);
     }
 
-    public async Task<string?> GetUserPhotoAsync()
+    public async Task<string?> GetUserPhotoAsync(CancellationToken cancellationToken)
     {
         var user = await _currentUserAccessor.GetCurrentUserAsync();
 
@@ -28,6 +28,6 @@ public sealed class UserFacade(CurrentUserAccessor currentUserAccessor, IUserDir
             return null;
         }
 
-        return await _userDirectory.GetUserPhotoAsync(user.UserId);
+        return await _userDirectory.GetUserPhotoAsync(user.UserId, cancellationToken);
     }
 }
