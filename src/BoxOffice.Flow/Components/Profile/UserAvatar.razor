@@ -1,4 +1,6 @@
-﻿@if (UserProfile is not null)
+﻿@inherits BoxOffice.Flow.Components.Common.CancellableComponent
+
+@if (UserProfile is not null)
 {
     <MudAvatar>
         @if (AvatarUrl is not null)
