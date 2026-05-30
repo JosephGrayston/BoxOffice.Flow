@@ -53,16 +53,15 @@ public static class StartupExtensions
     public static void ConfigureServices(this IServiceCollection services)
     {
         services.AddScoped<ThemeService>();
-        services.AddScoped<GraphUserDirectory>();
+        services.AddScoped<GraphCurrentUserDirectory>();
         services.AddScoped<CurrentUserAccessor>();
-        services.AddScoped<IUserDirectory>(sp =>
+        services.AddScoped<ICurrentUserDirectory>(sp =>
         {
-            var graph = sp.GetRequiredService<GraphUserDirectory>();
+            var graph = sp.GetRequiredService<GraphCurrentUserDirectory>();
             var cache = sp.GetRequiredService<IMemoryCache>();
 
-            return new CachedUserDirectory(graph, cache);
+            return new CachedCurrentUserDirectory(graph, cache);
         });
-        services.AddScoped<UserFacade>();
     }
 
     public static void ConfigureLogging(this WebApplicationBuilder builder)

@@ -7,7 +7,7 @@ namespace BoxOffice.Flow.Components.Profile;
 public partial class UserAvatar
 {
     [Inject]
-    private UserFacade UserFacade { get; set; } = null!;
+    private ICurrentUserDirectory CurrentUserDirectory { get; set; } = null!;
 
     private UserProfile? UserProfile { get; set; }
 
@@ -15,7 +15,7 @@ public partial class UserAvatar
 
     protected override async Task OnInitializedAsync()
     {
-        UserProfile = await UserFacade.GetUserAsync(CancellationToken);
+        UserProfile = await CurrentUserDirectory.GetCurrentUserAsync(CancellationToken);
 
         if (UserProfile is not null)
         {
@@ -25,7 +25,7 @@ public partial class UserAvatar
 
     private async Task LoadAvatarPhotoAsync()
     {
-        AvatarUrl = await UserFacade.GetUserPhotoAsync(CancellationToken);
+        AvatarUrl = await CurrentUserDirectory.GetCurrentUserPhotoAsync(CancellationToken);
 
         await InvokeAsync(StateHasChanged);
     }

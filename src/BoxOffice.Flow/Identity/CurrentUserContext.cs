@@ -3,6 +3,4 @@
 public sealed record CurrentUserContext
 {
     public required bool IsAuthenticated { get; init; }
-
-    public required string? UserId { get; init; }
 }

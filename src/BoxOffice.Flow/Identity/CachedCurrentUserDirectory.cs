@@ -2,21 +2,21 @@
 
 namespace BoxOffice.Flow.Identity;
 
-public sealed class CachedUserDirectory(IUserDirectory userDirectory, IMemoryCache cache) : IUserDirectory
+public sealed class CachedCurrentUserDirectory(ICurrentUserDirectory userDirectory, IMemoryCache cache) : ICurrentUserDirectory
 {
-    private readonly IUserDirectory _userDirectory = userDirectory;
+    private readonly ICurrentUserDirectory _userDirectory = userDirectory;
     private readonly IMemoryCache _cache = cache;
 
-    public async Task<UserProfile?> GetUserAsync(string userId, CancellationToken cancellationToken)
+    public async Task<UserProfile?> GetCurrentUserAsync(CancellationToken cancellationToken)
     {
-        var cacheKey = $"user:{userId}";
+        var cacheKey = $"current-user";
 
         if (_cache.TryGetValue(cacheKey, out UserProfile? cachedUser))
         {
             return cachedUser;
         }
 
-        var user = await _userDirectory.GetUserAsync(userId, cancellationToken);
+        var user = await _userDirectory.GetCurrentUserAsync(cancellationToken);
 
         if (user is not null)
         {
@@ -26,16 +26,16 @@ public sealed class CachedUserDirectory(IUserDirectory userDirectory, IMemoryCac
         return user;
     }
 
-    public async Task<string?> GetUserPhotoAsync(string userId, CancellationToken cancellationToken )
+    public async Task<string?> GetCurrentUserPhotoAsync(CancellationToken cancellationToken )
     {
-        var cacheKey = $"userPhoto:{userId}";
+        var cacheKey = $"current-user-photo";
 
         if (_cache.TryGetValue(cacheKey, out string? cachedUserPhoto))
         {
             return cachedUserPhoto;
         }
 
-        var userPhoto = await _userDirectory.GetUserPhotoAsync(userId, cancellationToken);
+        var userPhoto = await _userDirectory.GetCurrentUserPhotoAsync(cancellationToken);
 
         if (userPhoto is not null)
         {

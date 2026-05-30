@@ -10,16 +10,12 @@ public partial class Home
     private ThemeService ThemeService { get; set; } = default!;
 
     [Inject]
-    private UserFacade UserFacade { get; set; } = default!;
+    private ICurrentUserDirectory CurrentUserDirectory { get; set; } = default!;
 
     private UserProfile? UserProfile { get; set; }
 
-    private CurrentUserContext? UserContext { get; set; }
-
     protected override async Task OnParametersSetAsync()
     {
-        UserProfile = await UserFacade.GetUserAsync(CancellationToken);
-
-        UserContext = await UserFacade.GetUserContextAsync();
+        UserProfile = await CurrentUserDirectory.GetCurrentUserAsync(CancellationToken);
     }
 }

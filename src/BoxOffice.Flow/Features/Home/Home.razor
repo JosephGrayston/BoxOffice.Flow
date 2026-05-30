@@ -2,6 +2,7 @@
 @using BoxOffice.Flow.Components.Theme
 @using BoxOffice.Flow.Features.Home.Components
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 
 @inherits BoxOffice.Flow.Components.Common.CancellableComponent
 
@@ -23,7 +24,15 @@
         <MudStack Spacing="6" AlignItems="AlignItems.Center">
             <MudStack Spacing="2">
                 <MudText Typo="Typo.h1" Align="Align.Center">
-                    @(UserContext?.IsAuthenticated == true ? $"Welcome back, {UserProfile?.DisplayName}!" : "Box Office Flow")
+                    <AuthorizeView>
+                        <Authorized>
+                            @($"Welcome back, {UserProfile?.Name}!")
+                        </Authorized>
+                        <NotAuthorized>
+                            Box Office Flow
+                        </NotAuthorized>
+                        <Authorizing></Authorizing>
+                    </AuthorizeView>
                 </MudText>
                 <MudText Typo="Typo.h3" Color="Color.Secondary" Align="Align.Center">
                     Manage your shows, events, and reports all in one place
