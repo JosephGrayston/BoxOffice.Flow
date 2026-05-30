@@ -6,7 +6,7 @@ using Shouldly;
 namespace BoxOffice.Flow.UnitTests.Identity;
 
 [TestClass]
-public sealed class CachedUserDirectoryTests
+public sealed class CachedCurrentUserDirectoryTests
 {
     private Mock<ICurrentUserDirectory> _mockUserDirectory = null!;
 
