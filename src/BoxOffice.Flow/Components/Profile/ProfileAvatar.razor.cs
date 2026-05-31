@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace BoxOffice.Flow.Components.Profile;
 
-public partial class UserAvatar
+public partial class ProfileAvatar
 {
     [Inject]
     private ICurrentUserDirectory CurrentUserDirectory { get; set; } = null!;
