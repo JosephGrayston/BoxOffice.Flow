@@ -3,19 +3,19 @@ using Microsoft.Graph.Models.ODataErrors;
 
 namespace BoxOffice.Flow.Identity;
 
-public sealed class GraphCurrentUserDirectory(GraphServiceClient graphServiceClient, CurrentUserAccessor currentUserAccessor, ILogger<GraphCurrentUserDirectory> logger) : ICurrentUserDirectory
+public sealed class GraphCurrentUserDirectory(GraphServiceClient graphServiceClient, CurrentPrincipalAccessor currentUserAccessor, ILogger<GraphCurrentUserDirectory> logger) : ICurrentUserDirectory
 {
     private readonly GraphServiceClient _graphClient = graphServiceClient;
-    private readonly CurrentUserAccessor _currentUserAccessor = currentUserAccessor;
+    private readonly CurrentPrincipalAccessor _currentUserAccessor = currentUserAccessor;
     private readonly ILogger<GraphCurrentUserDirectory> _logger = logger;
 
     public async Task<UserProfile?> GetCurrentUserAsync(CancellationToken cancellationToken)
     {
         try
         {
-            var currentUserContext = await _currentUserAccessor.GetCurrentUserContextAsync();
+            var principal = await _currentUserAccessor.GetPrincipalAsync();
 
-            if (!currentUserContext.IsAuthenticated)
+            if (!principal.Identity?.IsAuthenticated ?? false)
             {
                 return null;
             }
@@ -45,9 +45,9 @@ public sealed class GraphCurrentUserDirectory(GraphServiceClient graphServiceCli
     {
         try
         {
-            var currentUserContext = await _currentUserAccessor.GetCurrentUserContextAsync();
+            var principal = await _currentUserAccessor.GetPrincipalAsync();
 
-            if (!currentUserContext.IsAuthenticated)
+            if (!principal.Identity?.IsAuthenticated ?? false)
             {
                 return null;
             }

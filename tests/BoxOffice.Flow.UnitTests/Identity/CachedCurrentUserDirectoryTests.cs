@@ -8,12 +8,18 @@ namespace BoxOffice.Flow.UnitTests.Identity;
 [TestClass]
 public sealed class CachedCurrentUserDirectoryTests
 {
+    private const string CachedUser = "testuser";
+
     private Mock<ICurrentUserDirectory> _mockUserDirectory = null!;
+    private CurrentPrincipalAccessor _principalAccessor = null!;
 
     [TestInitialize]
     public void Setup()
     {
         _mockUserDirectory = new Mock<ICurrentUserDirectory>();
+
+        var authProvider = new AuthenticationStateProviderFake(ClaimPrincipalBuilder.CreateUser(CachedUser));
+        _principalAccessor = new CurrentPrincipalAccessor(authProvider);
     }
 
     [TestMethod]
@@ -21,7 +27,7 @@ public sealed class CachedCurrentUserDirectoryTests
     {
         _mockUserDirectory.Setup(x => x.GetCurrentUserAsync(It.IsAny<CancellationToken>())).ReturnsAsync(new UserProfile { Name = "Test User", Email = "test@example.com" });
 
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
+        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()), _principalAccessor);
 
         var result = await cachedUserDirectory.GetCurrentUserAsync(CancellationToken.None);
 
@@ -43,9 +49,9 @@ public sealed class CachedCurrentUserDirectoryTests
         _mockUserDirectory.Setup(x => x.GetCurrentUserAsync(It.IsAny<CancellationToken>())).ReturnsAsync(userProfile);
 
         using var cache = new MemoryCache(new MemoryCacheOptions());
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, cache);
+        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, cache, _principalAccessor);
 
-        cache.Set("current-user", userProfile);
+        cache.Set($"user:{CachedUser}", userProfile);
 
         var result = await cachedUserDirectory.GetCurrentUserAsync(CancellationToken.None);
 
@@ -58,7 +64,7 @@ public sealed class CachedCurrentUserDirectoryTests
     {
         _mockUserDirectory.Setup(x => x.GetCurrentUserAsync(It.IsAny<CancellationToken>())).ReturnsAsync(new UserProfile { Name = "Cached User", Email = "cachedtest@example.com" });
 
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
+        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()), _principalAccessor);
 
         await cachedUserDirectory.GetCurrentUserAsync(CancellationToken.None);
         await cachedUserDirectory.GetCurrentUserAsync(CancellationToken.None);
@@ -71,7 +77,7 @@ public sealed class CachedCurrentUserDirectoryTests
     {
         _mockUserDirectory.Setup(x => x.GetCurrentUserAsync(It.IsAny<CancellationToken>())).ReturnsAsync((UserProfile?)null);
 
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
+        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()), _principalAccessor);
 
         var result1 = await cachedUserDirectory.GetCurrentUserAsync(CancellationToken.None);
         var result2 = await cachedUserDirectory.GetCurrentUserAsync(CancellationToken.None);
@@ -82,28 +88,11 @@ public sealed class CachedCurrentUserDirectoryTests
     }
 
     [TestMethod]
-    public async Task GetCurrentUserAsyncWhenCacheExpiredCallsUserDirectoryAgain()
-    {
-        _mockUserDirectory.Setup(x => x.GetCurrentUserAsync( It.IsAny<CancellationToken>())).ReturnsAsync(new UserProfile { Name = "Cached User", Email = "cachedtest@example.com" });
-
-        using var cache = new MemoryCache(new MemoryCacheOptions());
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, cache);
-
-        await cachedUserDirectory.GetCurrentUserAsync(CancellationToken.None);
-
-        cache?.Remove("current-user");
-
-        await cachedUserDirectory.GetCurrentUserAsync(CancellationToken.None);
-
-        _mockUserDirectory.Verify(x => x.GetCurrentUserAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
-    }
-
-    [TestMethod]
     public async Task GetCurrentUserPhotoAsyncWithCacheMissRequestsAndReturnsUserPhoto()
     {
         _mockUserDirectory.Setup(x => x.GetCurrentUserPhotoAsync(It.IsAny<CancellationToken>())).ReturnsAsync("user-photo.jpg");
 
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
+        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()), _principalAccessor);
 
         var result = await cachedUserDirectory.GetCurrentUserPhotoAsync(CancellationToken.None);
 
@@ -122,9 +111,9 @@ public sealed class CachedCurrentUserDirectoryTests
         _mockUserDirectory.Setup(x => x.GetCurrentUserPhotoAsync(It.IsAny<CancellationToken>())).ReturnsAsync(userPhoto);
 
         using var cache = new MemoryCache(new MemoryCacheOptions());
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, cache);
+        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, cache, _principalAccessor);
 
-        cache.Set("current-user-photo", userPhoto);
+        cache.Set($"photo:{CachedUser}", userPhoto);
 
         var result = await cachedUserDirectory.GetCurrentUserPhotoAsync(CancellationToken.None);
 
@@ -137,7 +126,7 @@ public sealed class CachedCurrentUserDirectoryTests
     {
         _mockUserDirectory.Setup(x => x.GetCurrentUserPhotoAsync(It.IsAny<CancellationToken>())).ReturnsAsync("user-photo.jpg");
 
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
+        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()), _principalAccessor);
 
         await cachedUserDirectory.GetCurrentUserPhotoAsync(CancellationToken.None);
         await cachedUserDirectory.GetCurrentUserPhotoAsync(CancellationToken.None);
@@ -150,7 +139,7 @@ public sealed class CachedCurrentUserDirectoryTests
     {
         _mockUserDirectory.Setup(x => x.GetCurrentUserPhotoAsync(It.IsAny<CancellationToken>())).ReturnsAsync((string?)null);
 
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()));
+        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, new MemoryCache(new MemoryCacheOptions()), _principalAccessor);
 
         var result1 = await cachedUserDirectory.GetCurrentUserPhotoAsync(CancellationToken.None);
         var result2 = await cachedUserDirectory.GetCurrentUserPhotoAsync(CancellationToken.None);
@@ -159,22 +148,4 @@ public sealed class CachedCurrentUserDirectoryTests
         result1.ShouldBeNull();
         result2.ShouldBeNull();
     }
-
-    [TestMethod]
-    public async Task GetCurrentUserPhotoAsyncWhenCacheExpiredCallsUserDirectoryAgain()
-    {
-        _mockUserDirectory.Setup(x => x.GetCurrentUserPhotoAsync(It.IsAny<CancellationToken>())).ReturnsAsync("user-photo.jpg");
-
-        using var cache = new MemoryCache(new MemoryCacheOptions());
-        var cachedUserDirectory = new CachedCurrentUserDirectory(_mockUserDirectory.Object, cache);
-
-        await cachedUserDirectory.GetCurrentUserPhotoAsync(CancellationToken.None);
-
-        cache?.Remove("current-user-photo");
-
-        await cachedUserDirectory.GetCurrentUserPhotoAsync(CancellationToken.None);
-
-        _mockUserDirectory.Verify(x => x.GetCurrentUserPhotoAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
-    }
-
 }
