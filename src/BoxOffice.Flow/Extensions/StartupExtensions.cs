@@ -53,16 +53,16 @@ public static class StartupExtensions
     public static void ConfigureServices(this IServiceCollection services)
     {
         services.AddScoped<ThemeService>();
-        services.AddScoped<GraphCurrentUserDirectory>();
+        services.AddScoped<GraphCurrentUserProvider>();
         services.AddScoped<CurrentPrincipalAccessor>();
-        services.AddScoped<ICurrentUserDirectory>(sp =>
+        services.AddScoped<ICurrentUserProvider>(sp =>
         {
-            var graph = sp.GetRequiredService<GraphCurrentUserDirectory>();
+            var graph = sp.GetRequiredService<GraphCurrentUserProvider>();
             var cache = sp.GetRequiredService<IMemoryCache>();
             var principalAccessor = sp.GetRequiredService<CurrentPrincipalAccessor>();
 
 
-            return new CachedCurrentUserDirectory(graph, cache, principalAccessor);
+            return new CachedCurrentUserProvider(graph, cache, principalAccessor);
         });
     }
 

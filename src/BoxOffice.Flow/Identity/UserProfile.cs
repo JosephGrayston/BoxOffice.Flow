@@ -2,9 +2,9 @@
 
 public record UserProfile
 {
-    public string? Name { get; set; }
+    public string? Name { get; init; }
 
-    public string? Email { get; set; }
+    public string? Email { get; init; }
 
-    public string Initials => string.Join("", (Name ?? string.Empty).Take(1)).ToUpperInvariant();
+    public string Initials => Name?[..1].ToUpperInvariant() ?? string.Empty;
 }

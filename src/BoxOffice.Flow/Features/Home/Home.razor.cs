@@ -10,7 +10,7 @@ public partial class Home
     private ThemeService ThemeService { get; set; } = default!;
 
     [Inject]
-    private ICurrentUserDirectory CurrentUserDirectory { get; set; } = default!;
+    private ICurrentUserProvider CurrentUserDirectory { get; set; } = default!;
 
     private UserProfile? UserProfile { get; set; }
 

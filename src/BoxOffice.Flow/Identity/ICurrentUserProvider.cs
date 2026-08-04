@@ -1,6 +1,6 @@
 ﻿namespace BoxOffice.Flow.Identity;
 
-public interface ICurrentUserDirectory
+public interface ICurrentUserProvider
 {
     Task<UserProfile?> GetCurrentUserAsync(CancellationToken cancellationToken);
 

@@ -7,7 +7,7 @@ namespace BoxOffice.Flow.Components.Profile;
 public partial class ProfileAvatar
 {
     [Inject]
-    private ICurrentUserDirectory CurrentUserDirectory { get; set; } = null!;
+    private ICurrentUserProvider CurrentUserDirectory { get; set; } = null!;
 
     private UserProfile? UserProfile { get; set; }
 

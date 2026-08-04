@@ -2,9 +2,9 @@
 
 namespace BoxOffice.Flow.Identity;
 
-public sealed class CachedCurrentUserDirectory(ICurrentUserDirectory userDirectory, IMemoryCache cache, CurrentPrincipalAccessor principalAccessor) : ICurrentUserDirectory
+public sealed class CachedCurrentUserProvider(ICurrentUserProvider userDirectory, IMemoryCache cache, CurrentPrincipalAccessor principalAccessor) : ICurrentUserProvider
 {
-    private readonly ICurrentUserDirectory _userDirectory = userDirectory;
+    private readonly ICurrentUserProvider _userDirectory = userDirectory;
     private readonly IMemoryCache _cache = cache;
     private readonly CurrentPrincipalAccessor _principalAccessor = principalAccessor;
 
