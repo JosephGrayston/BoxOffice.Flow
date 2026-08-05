@@ -55,6 +55,7 @@ public static class StartupExtensions
         services.AddScoped<ThemeService>();
         services.AddScoped<GraphCurrentUserProvider>();
         services.AddScoped<CurrentPrincipalAccessor>();
+        services.AddScoped<CurrentUserState>();
         services.AddScoped<ICurrentUserProvider>(sp =>
         {
             var graph = sp.GetRequiredService<GraphCurrentUserProvider>();
@@ -64,6 +65,7 @@ public static class StartupExtensions
 
             return new CachedCurrentUserProvider(graph, cache, principalAccessor);
         });
+        
     }
 
     public static void ConfigureLogging(this WebApplicationBuilder builder)

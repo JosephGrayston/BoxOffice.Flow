@@ -26,7 +26,7 @@
                 <MudText Typo="Typo.h1" Align="Align.Center">
                     <AuthorizeView>
                         <Authorized>
-                            @($"Welcome back, {UserProfile?.Name}!")
+                            @($"Welcome back, {UserState.UserProfile?.Name}!")
                         </Authorized>
                         <NotAuthorized>
                             Box Office Flow
