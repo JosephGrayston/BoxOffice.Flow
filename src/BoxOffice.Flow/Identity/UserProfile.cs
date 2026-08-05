@@ -2,13 +2,9 @@
 
 public record UserProfile
 {
-    public string? DisplayName { get; set; }
+    public string? Name { get; init; }
 
-    public string? Email { get; set; }
+    public string? Email { get; init; }
 
-    public string Initials => string.Join("",
-        (DisplayName ?? string.Empty)
-        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-        .Take(2)
-        .Select(x => char.ToUpperInvariant(x[0])));
+    public string Initials => Name?[..1].ToUpperInvariant() ?? string.Empty;
 }

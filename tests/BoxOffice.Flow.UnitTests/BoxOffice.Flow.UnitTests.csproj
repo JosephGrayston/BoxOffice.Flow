@@ -3,6 +3,8 @@
     <PackageReference Include="MSTest" />
     <PackageReference Include="Moq" />
     <PackageReference Include="Shouldly" />
+    <!-- TODO: Remove once Microsoft.Identity.Web is updates it dependecy on this to a patched version to avoid CVE-2026-50648 -->
+    <PackageReference Include="System.Security.Cryptography.Xml " />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\BoxOffice.Flow\BoxOffice.Flow.csproj" />

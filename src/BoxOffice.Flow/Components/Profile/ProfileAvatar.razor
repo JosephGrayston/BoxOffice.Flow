@@ -1,15 +1,15 @@
 ﻿@inherits BoxOffice.Flow.Components.Common.CancellableComponent
 
-@if (UserProfile is not null)
+@if (UserState.UserProfile is not null)
 {
-    <MudAvatar>
+    <MudAvatar Color="Color.Primary">
         @if (AvatarUrl is not null)
         {
             <MudImage src="@AvatarUrl" alt="User Avatar" />
         }
         else
         {
-            @UserProfile.Initials
+            @UserState.UserProfile?.Initials
         }
     </MudAvatar>
 }

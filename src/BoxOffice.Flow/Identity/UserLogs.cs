@@ -8,12 +8,12 @@ public static partial class UserLogs
     [LoggerMessage(
         EventId = FailedToRetrieveUserEventId, 
         Level = LogLevel.Error,
-        Message = "Failed to retrieve user with ID {UserId} from Microsoft Graph.")]
-    public static partial void FailedToRetrieveUser(this ILogger logger, string userId, Exception ex);
+        Message = "Failed to retrieve current user from Microsoft Graph.")]
+    public static partial void FailedToRetrieveUser(this ILogger logger, Exception ex);
 
     [LoggerMessage(
         EventId = FailedToRetrievePhotoEventId,
         Level = LogLevel.Error,
-        Message = "Failed to retrieve photo for user with ID {UserId} from Microsoft Graph.")]
-    public static partial void FailedToRetrievePhoto(this ILogger logger, string userId, Exception ex);
+        Message = "Failed to retrieve the current users photo from Microsoft Graph.")]
+    public static partial void FailedToRetrievePhoto(this ILogger logger, Exception ex);
 }

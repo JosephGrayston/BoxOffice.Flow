@@ -1,0 +1,12 @@
+﻿<MudMenu AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
+    <ActivatorContent>
+        <div @onclick="@context.ToggleAsync" style="cursor: pointer; margin-bottom: 0.5rem">
+            <ProfileAvatar />
+        </div>
+    </ActivatorContent>
+    <ChildContent>
+        <MudMenuItem Icon="@Icons.Material.Outlined.AccountCircle" Label="Profile" Href="/profile" />
+        <MudMenuItem Icon="@Icons.Material.Outlined.Settings" Label="Settings" Href="/settings" />
+        <MudMenuItem Icon="@Icons.Material.Outlined.Logout" Label="Logout" Href="/logout" />
+    </ChildContent>
+</MudMenu>

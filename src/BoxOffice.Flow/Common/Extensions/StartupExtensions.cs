@@ -1,13 +1,13 @@
 ﻿using BoxOffice.Flow.Components.Theme;
-using BoxOffice.Flow.Features.Auth;
 using BoxOffice.Flow.Identity;
+using BoxOffice.Flow.Features.Auth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Graph;
 using Microsoft.Identity.Web;
 using MudBlazor.Services;
 
-namespace BoxOffice.Flow.Extensions;
+namespace BoxOffice.Flow.Common.Extensions;
 
 public static class StartupExtensions
 {
@@ -53,16 +53,19 @@ public static class StartupExtensions
     public static void ConfigureServices(this IServiceCollection services)
     {
         services.AddScoped<ThemeService>();
-        services.AddScoped<GraphUserDirectory>();
-        services.AddScoped<CurrentUserAccessor>();
-        services.AddScoped<IUserDirectory>(sp =>
+        services.AddScoped<GraphCurrentUserProvider>();
+        services.AddScoped<CurrentPrincipalAccessor>();
+        services.AddScoped<CurrentUserState>();
+        services.AddScoped<ICurrentUserProvider>(sp =>
         {
-            var graph = sp.GetRequiredService<GraphUserDirectory>();
+            var graph = sp.GetRequiredService<GraphCurrentUserProvider>();
             var cache = sp.GetRequiredService<IMemoryCache>();
+            var principalAccessor = sp.GetRequiredService<CurrentPrincipalAccessor>();
 
-            return new CachedUserDirectory(graph, cache);
+
+            return new CachedCurrentUserProvider(graph, cache, principalAccessor);
         });
-        services.AddScoped<UserFacade>();
+        
     }
 
     public static void ConfigureLogging(this WebApplicationBuilder builder)

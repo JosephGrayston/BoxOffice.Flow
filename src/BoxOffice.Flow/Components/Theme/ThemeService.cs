@@ -1,15 +1,14 @@
-﻿namespace BoxOffice.Flow.Components.Theme
+﻿namespace BoxOffice.Flow.Components.Theme;
+
+public sealed class ThemeService
 {
-    public class ThemeService
+    public bool IsDarkMode { get; private set; }
+
+    public event Action? OnChange;
+
+    public void Toggle()
     {
-        public bool IsDarkMode { get; private set; }
-
-        public event Action? OnChange;
-
-        public void Toggle()
-        {
-            IsDarkMode = !IsDarkMode;
-            OnChange?.Invoke();
-        }
+        IsDarkMode = !IsDarkMode;
+        OnChange?.Invoke();
     }
 }
