@@ -1,8 +1,8 @@
-﻿using BoxOffice.Flow.Identity;
-using BoxOffice.Flow.Pages.Components.Theme;
+﻿using BoxOffice.Flow.Components.Theme;
+using BoxOffice.Flow.Identity;
 using Microsoft.AspNetCore.Components;
 
-namespace BoxOffice.Flow.Pages.Home;
+namespace BoxOffice.Flow.Features.Home;
 
 public partial class Home
 {

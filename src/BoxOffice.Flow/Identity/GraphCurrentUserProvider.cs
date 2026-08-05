@@ -5,22 +5,18 @@ namespace BoxOffice.Flow.Identity;
 
 public sealed class GraphCurrentUserProvider(GraphServiceClient graphServiceClient, CurrentPrincipalAccessor currentUserAccessor, ILogger<GraphCurrentUserProvider> logger) : ICurrentUserProvider
 {
-    private readonly GraphServiceClient _graphClient = graphServiceClient;
-    private readonly CurrentPrincipalAccessor _currentUserAccessor = currentUserAccessor;
-    private readonly ILogger<GraphCurrentUserProvider> _logger = logger;
-
     public async Task<UserProfile?> GetCurrentUserAsync(CancellationToken cancellationToken)
     {
         try
         {
-            var principal = await _currentUserAccessor.GetPrincipalAsync();
+            var principal = await currentUserAccessor.GetPrincipalAsync();
 
-            if (!principal.Identity?.IsAuthenticated ?? false)
+            if (principal.Identity?.IsAuthenticated is not true)
             {
                 return null;
             }
 
-            var currentUser = await _graphClient.Me.GetAsync(cancellationToken: cancellationToken);
+            var currentUser = await graphServiceClient.Me.GetAsync(cancellationToken: cancellationToken);
 
             if (currentUser is null)
             {
@@ -35,7 +31,7 @@ public sealed class GraphCurrentUserProvider(GraphServiceClient graphServiceClie
         }
         catch (ODataError ex)
         {
-            UserLogs.FailedToRetrieveUser(_logger, ex);
+            UserLogs.FailedToRetrieveUser(logger, ex);
         }
 
         return null;
@@ -45,15 +41,15 @@ public sealed class GraphCurrentUserProvider(GraphServiceClient graphServiceClie
     {
         try
         {
-            var principal = await _currentUserAccessor.GetPrincipalAsync();
+            var principal = await currentUserAccessor.GetPrincipalAsync();
 
-            if (!principal.Identity?.IsAuthenticated ?? false)
+            if (principal.Identity?.IsAuthenticated is not true)
             {
                 return null;
             }
 
             using var stream =
-                await _graphClient.Me.Photo.Content.GetAsync(cancellationToken: cancellationToken);
+                await graphServiceClient.Me.Photo.Content.GetAsync(cancellationToken: cancellationToken);
 
             if (stream is null)
                 return null;
@@ -73,7 +69,7 @@ public sealed class GraphCurrentUserProvider(GraphServiceClient graphServiceClie
         }
         catch (Exception ex)
         {
-            UserLogs.FailedToRetrievePhoto(_logger, ex);
+            UserLogs.FailedToRetrievePhoto(logger, ex);
         }
 
         return null;

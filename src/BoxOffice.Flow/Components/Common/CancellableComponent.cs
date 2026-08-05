@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace BoxOffice.Flow.Pages.Components.Common;
+namespace BoxOffice.Flow.Components.Common;
 
 public abstract class CancellableComponent : ComponentBase, IDisposable
 {

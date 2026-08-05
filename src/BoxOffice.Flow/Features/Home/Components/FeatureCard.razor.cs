@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace BoxOffice.Flow.Pages.Home.Components;
+namespace BoxOffice.Flow.Features.Home.Components;
 
 public partial class FeatureCard : ComponentBase
 {

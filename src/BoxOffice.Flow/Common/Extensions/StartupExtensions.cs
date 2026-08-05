@@ -1,6 +1,6 @@
-﻿using BoxOffice.Flow.Identity;
-using BoxOffice.Flow.Pages.Auth;
-using BoxOffice.Flow.Pages.Components.Theme;
+﻿using BoxOffice.Flow.Components.Theme;
+using BoxOffice.Flow.Identity;
+using BoxOffice.Flow.Features.Auth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Graph;

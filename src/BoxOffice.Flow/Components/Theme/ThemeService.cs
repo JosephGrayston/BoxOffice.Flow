@@ -1,6 +1,6 @@
-﻿namespace BoxOffice.Flow.Pages.Components.Theme;
+﻿namespace BoxOffice.Flow.Components.Theme;
 
-public class ThemeService
+public sealed class ThemeService
 {
     public bool IsDarkMode { get; private set; }
 

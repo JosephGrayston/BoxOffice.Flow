@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
-namespace BoxOffice.Flow.Pages.Auth;
+namespace BoxOffice.Flow.Features.Auth;
 
 public static class LoginEndpoint
 {

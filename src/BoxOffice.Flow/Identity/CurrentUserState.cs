@@ -4,7 +4,6 @@ namespace BoxOffice.Flow.Identity;
 
 public sealed class CurrentUserState(ICurrentUserProvider currentUserProvider)
 {
-    private readonly ICurrentUserProvider _currentUserProvider = currentUserProvider;
     private Task? _loadTask;
 
     public UserProfile? UserProfile { get; private set; }
@@ -18,7 +17,7 @@ public sealed class CurrentUserState(ICurrentUserProvider currentUserProvider)
         IsAuthenticated = principal.Identity?.IsAuthenticated is true;
         Roles = principal.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
         UserProfile = IsAuthenticated
-            ? await _currentUserProvider.GetCurrentUserAsync(cancellationToken)
+            ? await currentUserProvider.GetCurrentUserAsync(cancellationToken)
             : null;
     }
 }

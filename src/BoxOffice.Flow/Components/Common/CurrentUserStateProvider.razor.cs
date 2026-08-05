@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace BoxOffice.Flow.Pages.Components.Common;
+namespace BoxOffice.Flow.Components.Common;
 
 public partial class CurrentUserStateProvider
 {
@@ -20,7 +20,7 @@ public partial class CurrentUserStateProvider
         if (AuthStateTask is not null)
         {
             var authState = await AuthStateTask;
-            await UserState.EnsureLoadedAsync(authState.User, CancellationToken.None);
+            await UserState.EnsureLoadedAsync(authState.User, CancellationToken);
         }
     }
 }
