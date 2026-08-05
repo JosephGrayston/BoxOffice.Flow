@@ -1,13 +1,13 @@
-﻿using BoxOffice.Flow.Components.Theme;
-using BoxOffice.Flow.Features.Auth;
-using BoxOffice.Flow.Identity;
+﻿using BoxOffice.Flow.Identity;
+using BoxOffice.Flow.Pages.Auth;
+using BoxOffice.Flow.Pages.Components.Theme;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Graph;
 using Microsoft.Identity.Web;
 using MudBlazor.Services;
 
-namespace BoxOffice.Flow.Extensions;
+namespace BoxOffice.Flow.Common.Extensions;
 
 public static class StartupExtensions
 {

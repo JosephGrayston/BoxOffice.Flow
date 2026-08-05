@@ -1,4 +1,4 @@
-﻿namespace BoxOffice.Flow.Middleware;
+﻿namespace BoxOffice.Flow.Common.Middleware;
 
 public sealed class RequestContextLoggingMiddleware(RequestDelegate next, ILogger<RequestContextLoggingMiddleware> logger)
 {

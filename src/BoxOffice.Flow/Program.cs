@@ -1,6 +1,6 @@
 using BoxOffice.Flow;
-using BoxOffice.Flow.Extensions;
-using BoxOffice.Flow.Middleware;
+using BoxOffice.Flow.Common.Extensions;
+using BoxOffice.Flow.Common.Middleware;
 using BoxOffice.Flow.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);

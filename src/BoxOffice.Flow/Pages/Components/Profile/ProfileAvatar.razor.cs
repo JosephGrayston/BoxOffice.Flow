@@ -1,7 +1,7 @@
 ﻿using BoxOffice.Flow.Identity;
 using Microsoft.AspNetCore.Components;
 
-namespace BoxOffice.Flow.Components.Profile;
+namespace BoxOffice.Flow.Pages.Components.Profile;
 
 public partial class ProfileAvatar
 {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 
-namespace BoxOffice.Flow.Components.Common;
+namespace BoxOffice.Flow.Pages.Components.Common;
 
 public partial class CurrentUserStateProvider
 {

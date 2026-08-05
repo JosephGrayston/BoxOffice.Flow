@@ -1,4 +1,4 @@
-﻿namespace BoxOffice.Flow.Components.Theme;
+﻿namespace BoxOffice.Flow.Pages.Components.Theme;
 
 public class ThemeService
 {

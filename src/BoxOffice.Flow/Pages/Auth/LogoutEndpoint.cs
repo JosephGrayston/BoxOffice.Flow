@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
-namespace BoxOffice.Flow.Features.Auth;
+namespace BoxOffice.Flow.Pages.Auth;
 
 public static class LogoutEndpoint
 {

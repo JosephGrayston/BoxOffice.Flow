@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.Identity.Web" />
     <PackageReference Include="Microsoft.Identity.Web.Azure" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\" />
+  </ItemGroup>
 </Project>
